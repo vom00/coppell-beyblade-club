@@ -432,7 +432,8 @@ export async function createRailScene(canvas: HTMLCanvasElement, o: Options): Pr
 export const PARTS_TOP: TopId = "knight-shield";
 
 export async function createPartsScene(canvas: HTMLCanvasElement, o: Options): Promise<SceneHandle> {
-  const loaded = await Promise.allSettled([loadTop(PARTS_TOP, o.signal)]);
+  // o.select picks another top (capture only: scripts/render-scenes.mjs); the Learn page passes none.
+  const loaded = await Promise.allSettled([loadTop((o.select as TopId | undefined) ?? PARTS_TOP, o.signal)]);
   settle(loaded, o.signal);
   const model = (loaded[0] as PromiseFulfilledResult<Awaited<ReturnType<typeof loadTop>>>).value;
   const pal = palette();

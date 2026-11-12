@@ -24,7 +24,7 @@ import { routeMeta } from "./meta";
 export const metadata = routeMeta("home");
 
 const competeLinks = [
-  { href: "/competitive", label: "Scoring and deck building", line: "How the four finishes score, and why a deck covers more than one matchup." },
+  { href: "/competitive#score-h", label: "Scoring and deck building", line: "How the four finishes score, and why a deck covers more than one matchup." },
   { href: "/gear", label: "Club gear picks", line: "Six picks, grouped by what is in the box." },
   { href: "/community", label: "DFW community", line: "Instagram for Coppell, Discord for the wider region." },
 ];
@@ -36,6 +36,15 @@ const finishes = [
   { name: "Burst Finish", pts: 2, top: "unicorn-delta" },
   { name: "Xtreme Finish", pts: 3, top: "drake-brave" },
 ] satisfies { name: string; pts: number; top: TopId }[];
+
+// A short silent clip inside a lane card. Nothing downloads until the visitor presses play; the poster shows first.
+function Clip({ name, label }: { name: string; label: string }) {
+  return (
+    <video className="clip" controls playsInline preload="none" poster={`/clips/${name}-poster.webp`} width={1280} height={720} aria-label={label}>
+      <source src={`/clips/${name}.mp4`} type="video/mp4" />
+    </video>
+  );
+}
 
 export default function Home() {
   return (
@@ -107,6 +116,7 @@ export default function Home() {
                   href="/learn"
                   cta="Read the beginner guide"
                 >
+                  <Clip name="basics" label="Video, no sound: how the blade, ratchet and bit of a top fit together" />
                   <p>
                     What Beyblade X is, the three parts of a top, and what two players need on the table for a first
                     battle.
@@ -122,6 +132,7 @@ export default function Home() {
                   eyebrow={<span className="chip chip--quiet">Here to compete</span>}
                   title="Go straight to the match"
                 >
+                  <Clip name="match" label="Video, no sound: the four ways a round ends and what each one scores" />
                   <ul className="rowlinks rowlinks--stack">
                     {competeLinks.map((l) => (
                       <li key={l.href}>

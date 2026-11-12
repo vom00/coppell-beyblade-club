@@ -362,7 +362,7 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
   .bento--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 @media (min-width: 48rem) {
-  .bento--lanes { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+  .bento--lanes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .bento--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 .split { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3); align-items: stretch; }
@@ -457,7 +457,13 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
 .brand img { width: 2.25rem; height: 2.25rem; flex: none; }
 .brand__word { font-family: var(--font-display-stack); font-size: var(--step-0); font-weight: 600; letter-spacing: -0.02em; line-height: 1; white-space: nowrap; }
 .site-nav { display: none; }
-.site-nav--wide { display: none; pointer-events: auto; }
+.site-nav-slot { display: none; pointer-events: auto; }
+/* Unlayered `a { color: inherit }` beats the Tailwind colour classes on the links, so the nav colours live here. */
+.site-nav-slot [data-slot="gooey-nav-item"] { color: var(--muted-foreground); }
+.site-nav-slot [data-slot="gooey-nav-item"]:hover,
+.site-nav-slot [data-slot="gooey-nav-item"]:focus-visible { color: #fff; }
+/* The ring sits inside the segment and follows the pill, so neighbouring segments do not cut it off. */
+.site-nav-slot [data-slot="gooey-nav-item"]:focus-visible { border-radius: var(--radius-pill); outline-offset: -3px; }
 .site-nav ul { display: flex; flex-direction: column; }
 .menu-btn {
   display: inline-flex;
@@ -530,9 +536,11 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
 .ig-pill .btn { min-height: 2.75rem; }
 
 @media (min-width: 60rem) {
-  .site-header__bar { display: grid; grid-template-columns: 1fr auto 1fr; }
+  /* column-gap is the space left between the pills once they have gathered (SiteHeader reads it) */
+  .site-header__bar { display: grid; grid-template-columns: 1fr auto 1fr; column-gap: var(--space-2); }
+  .site-header::before { opacity: calc(1 - var(--header-p, 0)); }
   .brand-group { justify-self: start; }
-  .site-nav--wide { display: block; justify-self: center; }
+  .site-nav-slot { display: block; justify-self: center; }
   .ig-pill { display: flex; justify-self: end; }
   .menu-group, .site-nav[data-open] { display: none !important; }
 }

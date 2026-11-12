@@ -1,7 +1,7 @@
 // Renders the scene stills from the real engine code: posters, the rail rider sprite, product
 // tiles and top close-ups.  node scripts/render-scenes.mjs [group or job name ...]
 //
-// Groups: posters, sprite, tiles, closeups (default: all). A job name such as "bay-poster" or
+// Groups: posters, sprite, tiles, closeups, clips (default: all). A job name such as "bay-poster" or
 // "tile-sol-eclipse" runs just that one.
 //
 // How: a small local server (no Next route) serves a capture page that imports
@@ -45,6 +45,11 @@ const JOBS = [
   })),
   { name: "top-sprite", group: "sprite", kind: "sprite", w: 512, h: 512, alpha: true, o: {}, out: webp("public/scene/top-sprite.webp", 82) },
   ...IDS.map((id) => ({ name: `tile-${id}`, group: "tiles", kind: "studio", w: 512, h: 512, alpha: true, o: { select: id, alpha: true, fill: 0.88 }, out: webp(`public/tops/${id}.webp`, 84) })),
+  // clips: Dran Sword on the Learn turntable, assembled (00) to exploded (18), for the home page clip in video/
+  ...Array.from({ length: 19 }, (_, i) => String(i).padStart(2, "0")).map((n) => ({
+    name: `clip-explode-${n}`, group: "clips", kind: "parts", w: 800, h: 800,
+    o: { select: "dran-sword", explode: Number(n) / 18 }, out: webp(`video/public/explode/dran-sword-${n}.webp`, 80),
+  })),
   ...IDS.map((id) => ({ name: `closeup-${id}`, group: "closeups", kind: "studio", w: 900, h: 900, o: { select: id, fill: 0.8 }, copy: `shots/v4/scene/closeup-${id}.png` })),
 ];
 

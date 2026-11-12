@@ -1,0 +1,25 @@
+{
+  "name": "coppell-beyblade-clips",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "studio": "node prepare.mjs && remotion studio",
+    "render": "node render.mjs"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.543",
+    "@remotion/fonts": "4.0.543",
+    "@remotion/google-fonts": "4.0.543",
+    "@remotion/tailwind-v4": "4.0.543",
+    "culori": "^4.0.2",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "remotion": "4.0.543",
+    "tailwindcss": "4.1.14"
+  },
+  "devDependencies": {
+    "@types/culori": "^4.0.1",
+    "@types/react": "19.2.2",
+    "typescript": "5.9.3"
+  }
+}

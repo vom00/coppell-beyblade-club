@@ -77,6 +77,15 @@ glow gradients in `app/globals.css`) follow the Glassmorphism, Shadow and Gradie
 - The pictures of tops on the tiles (`public/tops/`) and the scene posters (`public/scene/`) are renders of those models.
   On the Gear page they are decoration: they do not show the boxed products, and the page says so.
 
+## Video clips
+
+- The two clips on Home (`public/clips/`) are authored in `video/` with Remotion (https://www.remotion.dev/). Remotion
+  is source-available under its own licence, not MIT: its free licence covers individuals, non-profit organisations and
+  companies of up to three people. The club should confirm it fits at https://www.remotion.dev/license.
+- SnapCN (https://snapcn.dev/), MIT: Card Rail and Punch Lines, installed unmodified into `video/src/components/snap-cn/`
+  with their shared core in `video/src/lib/snap-cn-ui/`. Only free components are used.
+- The clips show renders of the club's Dran Sword model and redraw the site's own finish diagrams.
+
 ## Other packages
 
 Next.js, React, Motion, Three.js, Tailwind CSS, tw-animate-css, class-variance-authority, clsx, tailwind-merge and

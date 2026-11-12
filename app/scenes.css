@@ -14,6 +14,9 @@
 .lane .tile__panel > * + * { margin-top: 0; }
 .lane h3 { font-size: var(--step-3); font-weight: 600; color: var(--foreground); }
 .lane .rowlinks--stack .link { min-height: 2.75rem; }
+/* z-index lifts the player above the card's stretched link, so the player and the guide link are separate targets. */
+.clip { position: relative; z-index: 1; display: block; align-self: stretch; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; border: 1px solid var(--border); border-radius: var(--radius-panel); }
+.clip:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 .fin { display: flex; flex-direction: column; gap: 0; height: 100%; }
 .fin .tile__panel { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-4); }

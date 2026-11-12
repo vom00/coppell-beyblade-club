@@ -31,6 +31,8 @@ All three must pass. `npm run check:content -- --online` also requests every ext
 - Read reduced motion with `useReducedMotionSafe` from `lib/useReducedMotionSafe.ts`, not motion's `useReducedMotion`, which causes hydration mismatches. Nothing may loop under reduced motion.
 - Each 3D scene has a still poster in `public/scene/` for browsers without WebGL. After changing a scene or a model, re-render with `node scripts/render-scenes.mjs` (needs Microsoft Edge installed).
 - The Kenney scenes are built by `node scripts/build-kenney.mjs` from the kits in `assets-src/kenney/`.
+- The two Home clips (`public/clips/`) are rendered from `video/`, a separate Remotion project with SnapCN components: run `npm install` and `npm run render` inside `video/`. Its explode stills come from `node scripts/render-scenes.mjs clips`. Do not add Remotion to the root `package.json`. The clips play only when the visitor presses play (`preload="none"`, no autoplay).
+- The header pills gather into one row over the first 120px of scroll (`components/site/SiteHeader.tsx`). It moves by translate only, and snaps under reduced motion.
 - Model sources are in `assets-src/models/`. The files the site loads are in `public/models/`.
 
 ## Working alongside another agent

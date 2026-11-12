@@ -1,0 +1,4 @@
+node_modules
+out
+# copies of the site's renders and fonts, made by prepare.mjs
+public/site
