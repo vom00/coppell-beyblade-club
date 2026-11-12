@@ -74,8 +74,22 @@ glow gradients in `app/globals.css`) follow the Glassmorphism, Shadow and Gradie
 - Kenney Factory Kit and Space Station Kit (CC0 1.0), https://kenney.nl/
 - The stadium and six top models (Dran Sword 3-60F, Drake Brave G4-70I, Unicorn Delta PO3-60GU, Knight Shield 3-80N,
   Hells Scythe 4-60T, Sol Eclipse D5-70TK) were supplied by the club. Source and licence are to be confirmed by the club.
-- The pictures of tops on the tiles (`public/tops/`) and the scene posters (`public/scene/`) are renders of those models.
-  On the Gear page they are decoration: they do not show the boxed products, and the page says so.
+- The Home tiles (`public/tops/`) and scene posters (`public/scene/`) use renders of those models.
+
+## Product photos
+
+The Gear and deck coverage cards use cropped, locally stored versions of these product photos.
+
+| Product | Listing | Original image |
+| --- | --- | --- |
+| Nether Incendio Z | [BigBadToyStore](https://www.bigbadtoystore.com/product/beyblade-x-nether-incendio-z-ux-infinity-starter-pack-200028?variation=394380) | [Top](https://images.bigbadtoystore.com/images/product/200028/05568982-4684-41a2-85fb-3e74f16ac15a/original.jpg) |
+| Suppress Superion 0-70LP | [BeysAndBricks, Hasbro G2745](https://beysandbricks.com/hasbro-sieg-suppress-superion-0-70lp-beyblade-x-starter-g2745/) | [Starter set](https://cdn11.bigcommerce.com/s-iodt3qca/images/stencil/1280x1280/products/5581/64745/Screenshot_2026-10-08_164045__27584.1791502884.png) |
+| Strike Dran 4-50FF | [Walmart](https://www.walmart.com/ip/18489300072) | [Top](https://i5.walmartimages.com/asr/c165bc29-0ed2-457a-8cd4-58681b9d0e90.a18e2dc4614dc55120f96dd9e276f4d2.jpeg) |
+| Meteoroid Dragoon 3-70J | [Beyblade Toys, Hasbro set](https://beyblade-toys.com/products/meteoroid-dragoon) | [Top and launcher](https://cdn.shopify.com/s/files/1/0257/5410/7976/files/toys-migration-meteoroid-dragoon-2.jpg?v=1784130784) |
+| Soar Phoenix 9-60GF | [Hasbro, F9324](https://instructions.hasbro.com/en-ca/instruction/beyblade-x-soar-phoenix-9-60gf-deluxe-string-launcher-set-with-right-spinning-top-toy) | [Top and launcher](https://www.hasbro.com/common/productimages/en_CA/51FD8C99AA6B41EB95D642558B40139A/4da484a1f4662377fd8860f483ba847fde89bcd5.jpg) |
+| X-Treme Expansion Pack | [Enarxis, Hasbro G3195](https://b2b.enarxis.eu/hasbro-beyblade-x-wind-cave-x-treme-expansion-pack-g3195) | [All twelve parts](https://b2b.enarxis.eu/images/thumbs/0210232_550.jpeg) |
+| Silver Wolf 3-80FB | [Takara Tomy, UX-08](https://beyblade.takaratomy.co.jp/beyblade-x/lineup/ux08.html) | [Starter set](https://beyblade.takaratomy.co.jp/beyblade-x/lineup/_image/UX08@1.png) |
+| Glory Valkyrie LF | [Takara Tomy Mall, UX-20](https://takaratomymall.jp/shop/g/g8202701096139/) | [Top](https://takaratomymall.jp/img/goods/5/4904810096139_9150ace600ac4d6b8de03ed4369c6346.jpg) |
 
 ## Video clips
 

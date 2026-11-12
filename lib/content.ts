@@ -108,6 +108,21 @@ export const productGroups: ProductGroup[] = [
   },
 ];
 
+export const deckBuilds = [
+  {
+    heading: "A stamina build",
+    name: "Silver Wolf 3-80FB",
+    photo: "/products/silver-wolf-3-80fb.webp",
+    description: "uses a free-spinning ring and a Free Ball bit to conserve spin through contact.",
+  },
+  {
+    heading: "An attack build",
+    name: "Glory Valkyrie LF",
+    photo: "/products/glory-valkyrie-lf.webp",
+    description: "uses a Low Flat bit to move quickly around the stadium and go for an early knockout.",
+  },
+] as const;
+
 export const products: Product[] = [
   {
     productId: "19625662988",

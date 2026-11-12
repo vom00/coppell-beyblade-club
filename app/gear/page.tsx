@@ -1,3 +1,4 @@
+import Image from "next/image";
 import VideoPlayer from "@/components/site/VideoPlayer";
 import ExtLink from "@/components/site/ExtLink";
 import Arrows from "@/components/site/Arrows";
@@ -9,16 +10,10 @@ import SplitTitle from "@/components/motion/SplitTitle";
 import Tilt from "@/components/motion/Tilt";
 import SceneWord from "@/components/motion/SceneWord";
 import Chooser from "@/components/motion/Chooser";
-import { ShoppingBag, TopImage } from "@/components/site/TopImage";
-import type { TopId } from "@/lib/content-types";
 import { productGroups, products, videos } from "@/lib/content";
 import { routeMeta } from "../meta";
 
 export const metadata = routeMeta("gear");
-
-// The pictures on the product tiles are tops from the club's own models, one per tile, so no two tiles match.
-// They are not photos of the boxed products; the page says so above the first shelf.
-const tilePictures: TopId[] = ["hells-scythe", "knight-shield", "drake-brave", "sol-eclipse", "unicorn-delta"];
 
 export default function Gear() {
   const v = videos.competitive;
@@ -57,10 +52,6 @@ export default function Gear() {
                 .map((p) => ({ name: p.name, retailer: p.retailer, launcher: p.launcher })),
             }))}
           />
-          <Reveal as="p" className="muted picture-note">
-            The pictures on the product tiles are tops from the club&rsquo;s own collection. For what each box
-            contains, read the tile and the retailer&rsquo;s page.
-          </Reveal>
         </div>
       </section>
 
@@ -81,11 +72,13 @@ export default function Gear() {
                           className="product"
                           eyebrow={
                             <span className="product__top">
-                              {p.group === "expansion" ? (
-                                <ShoppingBag className="product__pic" />
-                              ) : (
-                                <TopImage top={tilePictures[products.indexOf(p) % tilePictures.length]} className="product__pic" />
-                              )}
+                              <Image
+                                className="top-img product__pic"
+                                src={`/products/${p.productId}.webp`}
+                                alt={p.name}
+                                width={80}
+                                height={80}
+                              />
                               <span className="chips">
                                 <span className={`chip ${p.includesLauncher ? "chip--brand" : "chip--quiet"}`}>{p.launcher}</span>
                                 <span className="chip chip--logo"><RetailerMark retailer={p.retailer} /> {p.retailer}</span>

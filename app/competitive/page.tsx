@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ExtLink from "@/components/site/ExtLink";
 import Arrows from "@/components/site/Arrows";
 import { WboLogo } from "@/components/site/Brand";
@@ -13,9 +14,8 @@ import Tally from "@/components/motion/Tally";
 import PointCounter from "@/components/motion/PointCounter";
 import DrillPlayer from "@/components/motion/DrillPlayer";
 import { FinishDiagram, type FinishKind } from "@/components/motion/Diagrams";
-import { TopImage } from "@/components/site/TopImage";
 import PracticeSheet from "@/components/site/PracticeSheet";
-import { links, videos } from "@/lib/content";
+import { deckBuilds, links, videos } from "@/lib/content";
 import { routeMeta } from "../meta";
 
 export const metadata = routeMeta("competitive");
@@ -148,23 +148,18 @@ export default function Compete() {
             Deck coverage
           </SectionHead>
           <div className="bento bento--2 deck">
-            <Reveal variant="left">
-              <Tilt>
-                <Tile
-                  eyebrow={<TopImage top="sol-eclipse" className="deck__pic" />}
-                  title="A stamina build"
-                >
-                  <p>Can pursue a long matchup, staying in the stadium and waiting for the other top to run out of spin.</p>
-                </Tile>
-              </Tilt>
-            </Reveal>
-            <Reveal variant="right">
-              <Tilt>
-                <Tile eyebrow={<TopImage top="hells-scythe" className="deck__pic" />} title="An attack build">
-                  <p>Can seek a quick knockout before the round has time to turn into a spin-off.</p>
-                </Tile>
-              </Tilt>
-            </Reveal>
+            {deckBuilds.map((build, i) => (
+              <Reveal key={build.name} variant={i === 0 ? "left" : "right"}>
+                <Tilt>
+                  <Tile
+                    title={build.heading}
+                    eyebrow={<Image className="top-img deck__pic" src={build.photo} alt={build.name} width={88} height={88} />}
+                  >
+                    <p>{build.name} {build.description}</p>
+                  </Tile>
+                </Tilt>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
