@@ -73,7 +73,7 @@ export default function DisplayBay({ tops }: { tops: BayTop[] }) {
           </div>
           {loading && (
             <span className={styles.status} aria-hidden="true">
-              [Loading 3D model]
+              Loading 3D model
             </span>
           )}
         </div>

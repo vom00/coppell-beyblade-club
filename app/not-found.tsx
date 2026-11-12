@@ -29,7 +29,7 @@ export default function NotFound() {
           <Tile>
             <GravityLetters className="gl-field" items={["4", "0", "4"]} size={64} color="#e8121a" maxGlyphs={30}>
               <p className="gl-field__hint hint" aria-hidden="true">
-                [Tap or hold to drop letters]
+                Tap or hold to drop letters
               </p>
             </GravityLetters>
           </Tile>

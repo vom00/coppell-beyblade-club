@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import { display, body, mono } from "./fonts";
+import { display, body, label } from "./fonts";
 import "./tokens.css";
 import "./globals.css";
 import "@/components/motion/motion.css";
@@ -22,7 +22,7 @@ const JS_FLAG = `(function(){var d=document.documentElement;d.classList.add('js'
 export default function RootLayout({ children }: { children: ReactNode }) {
   const nav = routes.filter((r) => r.id !== "home").map((r) => ({ path: r.path, label: r.navLabel }));
   return (
-    <html lang="en" className={`dark ${display.variable} ${body.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`dark ${display.variable} ${body.variable} ${label.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: JS_FLAG }} />
       </head>

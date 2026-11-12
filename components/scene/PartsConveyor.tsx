@@ -67,7 +67,7 @@ export default function PartsConveyor({ parts }: { parts: PartCopy[] }) {
             <img className={styles.poster} src={poster} alt="" loading="lazy" decoding="async" />
           </div>
           <span className={styles.status} data-live={running || undefined} aria-hidden="true">
-            {running ? "[Belt running]" : "[Under the scanner]"}
+            {running ? "Belt running" : "Under the scanner"}
           </span>
         </div>
 
@@ -80,7 +80,7 @@ export default function PartsConveyor({ parts }: { parts: PartCopy[] }) {
           />
           <div className={styles.copy} aria-live="polite">
             <p className={styles.count}>
-              [{index + 1}/{parts.length}]
+              {index + 1} of {parts.length}
             </p>
             <h3 className={styles.name}>{part?.name}</h3>
             <p className={styles.summary}>{part?.summary}</p>

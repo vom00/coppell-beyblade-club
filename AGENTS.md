@@ -21,7 +21,7 @@ All three must pass. `npm run check:content -- --online` also requests every ext
 
 ## Design rules
 
-- The look follows RareUI: pure black, card inside card, pill controls, Open Runde headings, Inter body, Geist Mono bracketed labels.
+- The look follows RareUI: pure black, card inside card, pill controls, Open Runde headings, Inter body. Small labels are Geist, uppercase and tracked, in neutral grey: no mono type, no square brackets, no red outline pills.
 - Colours, type and spacing come from `app/tokens.css`. Add a token before adding a raw value.
 - Brand marks are drawn in their own colours (`components/site/Brand.tsx`). No decorative coloured dots beside text.
 - Installed registry components live in `components/ui/` (RareUI) and `components/ui/ruixen/` (Ruixen). Edits to them are listed in `docs/CREDITS.md`; add to that list when you change one.
@@ -31,8 +31,8 @@ All three must pass. `npm run check:content -- --online` also requests every ext
 - Read reduced motion with `useReducedMotionSafe` from `lib/useReducedMotionSafe.ts`, not motion's `useReducedMotion`, which causes hydration mismatches. Nothing may loop under reduced motion.
 - Each 3D scene has a still poster in `public/scene/` for browsers without WebGL. After changing a scene or a model, re-render with `node scripts/render-scenes.mjs` (needs Microsoft Edge installed).
 - The Kenney scenes are built by `node scripts/build-kenney.mjs` from the kits in `assets-src/kenney/`.
-- The two Home clips (`public/clips/`) are rendered from `video/`, a separate Remotion project with SnapCN components: run `npm install` and `npm run render` inside `video/`. Its explode stills come from `node scripts/render-scenes.mjs clips`. Do not add Remotion to the root `package.json`. The clips play only when the visitor presses play (`preload="none"`, no autoplay).
-- The header pills gather into one row over the first 120px of scroll (`components/site/SiteHeader.tsx`). It moves by translate only, and snaps under reduced motion.
+- The two Home clips (`public/clips/`) are rendered from `video/`, a separate Remotion project with SnapCN components: run `npm install` and `npm run render` inside `video/`. Its explode stills come from `node scripts/render-scenes.mjs clips`. Do not add Remotion to the root `package.json`. The clips loop silently while on screen with no controls (`components/site/Clip.tsx`); under reduced motion they stay on the poster and show the browser's controls.
+- The header pills gather into one row over the first 220px of scroll, eased by a short spring (`components/site/SiteHeader.tsx`). It moves by translate only, and snaps under reduced motion.
 - Model sources are in `assets-src/models/`. The files the site loads are in `public/models/`.
 
 ## Working alongside another agent

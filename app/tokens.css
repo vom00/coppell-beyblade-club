@@ -58,7 +58,9 @@
   /* Type */
   --font-display-stack: var(--font-display), "Open Runde", "Inter", system-ui, sans-serif;
   --font-body-stack: var(--font-body), "Inter", system-ui, sans-serif;
-  --font-mono-stack: var(--font-mono), "Geist Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+  --font-label-stack: var(--font-label), "Geist", "Inter", system-ui, sans-serif;
+  --tracking-label: 0.08em;
+  --radius-tag: 0.5rem;
   --tracking-display: -0.025em;
   --step--1: 0.8125rem;
   --step-0: 1rem;

@@ -129,7 +129,7 @@ export default function Learn() {
         <SceneWord place="bottom-left">Xtreme Dash</SceneWord>
         <div className="wrap split">
           <Reveal variant="left" className="reveal-fill">
-            <Tile eyebrow={<span className="chip chip--quiet">[Rail catch]</span>}>
+            <Tile eyebrow={<span className="chip chip--quiet">Rail catch</span>}>
               <h2 id="rail-h" className="h-lg">
                 How the rail catch works
               </h2>
@@ -194,7 +194,7 @@ export default function Learn() {
               <div className="tasks">
                 <TaskList defaultTasks={checklist} size="md" aria-label="First battle checklist" />
               </div>
-              <p className="hint">[Tap an item to tick it off]</p>
+              <p className="hint">Tap an item to tick it off</p>
               <p>
                 Starter packs put a top and a launcher in one box.{" "}
                 <Link href="/gear" className="textlink">

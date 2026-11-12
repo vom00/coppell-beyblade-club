@@ -176,7 +176,7 @@ function MotionShot({ i }: { i: number }) {
         </div>
       </div>
       <div style={{ position: "absolute", left: 750, top: 0, bottom: 0, width: 470, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        <div style={{ fontFamily: BODY, fontSize: 30, color: C.muted, marginBottom: 22 }}>[{i + 1}/4]</div>
+        <div style={{ fontFamily: BODY, fontSize: 30, color: C.muted, marginBottom: 22 }}>{i + 1} of 4</div>
         <div style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: 54, lineHeight: 1.12, color: C.fg, letterSpacing: "-0.02em" }}>{fin.text}</div>
         <div style={{ fontFamily: BODY, fontSize: 30, lineHeight: 1.4, color: C.muted, marginTop: 30 }}>
           Red: your top

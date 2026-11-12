@@ -66,11 +66,11 @@ export default function RailCatchLoop({ className = "" }: { className?: string }
 
       <g
         fill="currentColor"
-        style={{ fontFamily: "var(--font-mono-stack, monospace)", fontWeight: 400, letterSpacing: "0" }}
+        style={{ fontFamily: "var(--font-label-stack, sans-serif)", fontWeight: 400, letterSpacing: "0" }}
         fontSize="26"
       >
-        <text x="24" y="30">[Rail]</text>
-        <text x="24" y="300">[Gear]</text>
+        <text x="24" y="30">Rail</text>
+        <text x="24" y="300">Gear</text>
       </g>
       <line x1="92" y1="292" x2={GX - 70} y2={GY + 40} stroke="currentColor" strokeWidth="1.5" />
     </svg>

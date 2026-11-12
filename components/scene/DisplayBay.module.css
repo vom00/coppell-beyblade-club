@@ -70,7 +70,7 @@
   border: var(--glass-border);
   border-radius: var(--radius-pill);
   color: var(--muted-foreground);
-  font-family: var(--font-mono-stack);
+  font-family: var(--font-label-stack);
   font-size: 0.75rem;
   line-height: 1;
   white-space: nowrap;
@@ -171,7 +171,7 @@
 .row dd {
   margin: 0;
   color: var(--foreground);
-  font-family: var(--font-mono-stack);
+  font-family: var(--font-label-stack);
   font-size: 0.875rem;
   text-align: right;
 }
@@ -211,4 +211,15 @@
   .status {
     animation: none;
   }
+}
+
+/* Labels: Geist, uppercase, tracked (see the Labels block in app/scenes.css). */
+.status {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.status {
+  border-radius: var(--radius-tag);
 }

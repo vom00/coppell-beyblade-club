@@ -32,12 +32,9 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
-/* The next/font variable --font-mono is set on <html>; keep Tailwind's own from shadowing it. */
-@theme {
-  --font-mono: initial;
-}
+/* Installed components that ask for a mono face get the site's label face. */
 @utility font-mono {
-  font-family: var(--font-mono-stack);
+  font-family: var(--font-label-stack);
 }
 
 /* ---------- Reset ---------- */
@@ -135,7 +132,7 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
 .prose, .prose p { max-width: var(--measure); color: var(--muted-foreground); }
 .prose strong { color: var(--foreground); font-weight: 600; }
 .muted { color: var(--muted-foreground); }
-.mono { font-family: var(--font-mono-stack); }
+.mono { font-family: var(--font-label-stack); }
 .textlink {
   color: var(--foreground);
   text-decoration: underline;
@@ -157,7 +154,7 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
   color: var(--muted-foreground);
-  font-family: var(--font-mono-stack);
+  font-family: var(--font-label-stack);
   font-size: 0.8125rem;
   line-height: 1;
   letter-spacing: 0;
@@ -172,7 +169,7 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
   color: var(--secondary-foreground);
-  font-family: var(--font-mono-stack);
+  font-family: var(--font-label-stack);
   font-size: 0.75rem;
   line-height: 1;
   white-space: nowrap;
@@ -181,9 +178,9 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
 .chip--quiet { background: transparent; color: var(--muted-foreground); }
 .chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
 
-/* ---------- Section header: heading plus a bracketed count ---------- */
+/* ---------- Section header: heading plus a small count ---------- */
 .sec-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-4); margin-bottom: var(--space-3); }
-.sec-head__count { font-family: var(--font-mono-stack); font-size: var(--step-0); color: var(--brand-bright); letter-spacing: 0; }
+.sec-head__count { font-family: var(--font-label-stack); font-size: var(--step-0); color: var(--brand-bright); letter-spacing: 0; }
 .sec-lead { max-width: var(--measure); color: var(--muted-foreground); margin-bottom: var(--space-6); }
 .sec-rule { height: 1px; margin-bottom: var(--space-6); background: var(--border); border-radius: var(--radius-pill); }
 .sec-head + .sec-rule { margin-top: var(--space-4); }
@@ -294,7 +291,7 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
   padding: 0 var(--space-3);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-pill);
-  font-family: var(--font-mono-stack);
+  font-family: var(--font-label-stack);
   font-size: 0.75rem;
   letter-spacing: 0.02em;
   color: var(--secondary-foreground);
@@ -333,7 +330,7 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
 .tile__panel[data-panel="light"] p { color: var(--panel-light-muted); }
 .tile__title { color: var(--foreground); }
 .tile__panel[data-panel="light"] .tile__title { color: var(--panel-light-fg); }
-.tile__index { font-family: var(--font-mono-stack); font-size: 0.8125rem; color: var(--brand-bright); }
+.tile__index { font-family: var(--font-label-stack); font-size: 0.8125rem; color: var(--brand-bright); }
 .tile__foot {
   display: flex;
   align-items: center;
@@ -393,7 +390,7 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
 
 /* ---------- Logo row ---------- */
 .logos { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--space-3) var(--space-4); }
-.logos__label { width: 100%; text-align: center; font-family: var(--font-mono-stack); font-size: 0.8125rem; color: var(--muted-foreground); }
+.logos__label { width: 100%; text-align: center; font-family: var(--font-label-stack); font-size: 0.8125rem; color: var(--muted-foreground); }
 .logo-link {
   display: inline-flex;
   align-items: center;
@@ -404,7 +401,7 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
   border-radius: var(--radius-pill);
   background: var(--card);
   color: var(--muted-foreground);
-  font-family: var(--font-mono-stack);
+  font-family: var(--font-label-stack);
   font-size: 0.8125rem;
   text-decoration: none;
   transition: color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out), background-color var(--dur) var(--ease-out);
@@ -573,7 +570,7 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
   background: var(--card-2);
   border-radius: var(--radius-panel);
 }
-.site-footer__label { margin-bottom: var(--space-2); font-family: var(--font-mono-stack); font-size: 0.8125rem; color: var(--muted-foreground); }
+.site-footer__label { margin-bottom: var(--space-2); font-family: var(--font-label-stack); font-size: 0.8125rem; color: var(--muted-foreground); }
 .site-footer__list { display: grid; gap: 0; }
 .site-footer__list a {
   display: inline-flex;
@@ -616,7 +613,7 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
   background: var(--glow-brand), var(--card-2);
 }
 .video__title { font-family: var(--font-display-stack); font-size: var(--step-1); font-weight: 600; line-height: 1.15; letter-spacing: var(--tracking-display); max-width: 30ch; }
-.video__stamp { color: var(--muted-foreground); font-family: var(--font-mono-stack); font-size: 0.8125rem; }
+.video__stamp { color: var(--muted-foreground); font-family: var(--font-label-stack); font-size: 0.8125rem; }
 .video__actions { margin-top: var(--space-3); display: flex; flex-wrap: wrap; gap: var(--space-2); }
 .video__fallback { margin-top: var(--space-3); display: grid; gap: var(--space-1); padding-inline: var(--space-2); }
 .video__fallback a { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 2.75rem; }
@@ -673,7 +670,7 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
 .practice input::placeholder { color: var(--fg-dim); opacity: 1; }
 .practice table { width: 100%; border-collapse: collapse; table-layout: fixed; }
 .practice th {
-  font-family: var(--font-mono-stack);
+  font-family: var(--font-label-stack);
   font-size: 0.75rem;
   font-weight: 400;
   text-align: left;
@@ -695,7 +692,7 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
 
 /* ---------- Gear ---------- */
 .shelf { margin-top: var(--space-5); }
-.product__spec { font-family: var(--font-mono-stack); font-size: 0.8125rem; color: var(--brand-bright); }
+.product__spec { font-family: var(--font-label-stack); font-size: 0.8125rem; color: var(--brand-bright); }
 .product__note { font-size: var(--step--1); color: var(--muted-foreground); padding-left: var(--space-3); border-left: 2px solid var(--border-strong); }
 .product__top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
 .product__foot { padding: var(--space-1) var(--space-1) var(--space-1); }
@@ -768,5 +765,5 @@ html[data-ready] .faq-static { display: none; }
 @media (min-width: 1440px) and (min-height: 600px) {
   .page-toc { display: block; position: fixed; z-index: 40; left: 1rem; top: calc(var(--header-h) + 2rem); max-height: calc(100svh - var(--header-h) - 4rem); overflow: visible; }
   .page-toc [data-slot="rail-toc-list"] button { display: flex; align-items: center; min-height: 2.75rem; padding-block: 0.25rem; }
-  .page-toc [data-slot="rail-toc-title"] { font-family: var(--font-mono-stack); font-size: 0.8125rem; font-weight: 400; color: var(--muted-foreground); }
+  .page-toc [data-slot="rail-toc-title"] { font-family: var(--font-label-stack); font-size: 0.8125rem; font-weight: 400; color: var(--muted-foreground); }
 }

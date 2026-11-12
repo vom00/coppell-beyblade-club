@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { motion, useMotionValue, useScroll, useTransform } from "motion/react";
+import { motion, useMotionValue, useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
 import ExtLink from "./ExtLink";
 import { BrandMark } from "./Brand";
@@ -21,6 +21,9 @@ export interface NavItem {
  * the active page separates from the group), and Instagram. Under 60rem the pages and Instagram move into a
  * menu (RareUI Hook Sidebar): a button with aria-expanded; Escape returns focus to it; a click outside or on a link closes it.
  */
+// Scroll distance, in px, over which the outer pills gather beside the nav.
+const GATHER = 220;
+
 export default function SiteHeader({
   items,
   instagramUrl,
@@ -39,7 +42,7 @@ export default function SiteHeader({
   const active = items.findIndex((i) => i.path === pathname);
 
   // From 60rem up the outer pills slide in beside the nav as the page scrolls (translate only, so labels and
-  // hit targets keep their size). Progress comes straight from scrollY, so scrolling back reverses it.
+  // hit targets keep their size). Progress follows scrollY, so scrolling back reverses it.
   const reduced = useReducedMotionSafe();
   const brandRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLDivElement>(null);
@@ -49,10 +52,17 @@ export default function SiteHeader({
   const navDx = useMotionValue(0);
   const igDx = useMotionValue(0);
   const { scrollY } = useScroll();
-  const progress = useTransform(() => {
+  const target = useTransform(() => {
     const y = scrollY.get();
-    return reduced ? (y > 60 ? 1 : 0) : Math.min(Math.max(y / 120, 0), 1);
+    return reduced ? (y > GATHER / 2 ? 1 : 0) : Math.min(Math.max(y / GATHER, 0), 1);
   });
+  // A soft spring trails the scroll position so the pills glide instead of tracking every wheel tick.
+  const progress = useSpring(target, { stiffness: 90, damping: 22, mass: 0.9 });
+  // No glide under reduced motion, and none on load: a page opened mid-scroll starts gathered.
+  useMotionValueEvent(target, "change", (v) => {
+    if (reduced) progress.jump(v);
+  });
+  useEffect(() => progress.jump(target.get()), [progress, target, reduced]);
   const brandX = useTransform(() => progress.get() * brandDx.get());
   const navX = useTransform(() => progress.get() * navDx.get());
   const igX = useTransform(() => progress.get() * igDx.get());
@@ -83,7 +93,7 @@ export default function SiteHeader({
     [bar, brand, nav, ig].forEach((el) => ro.observe(el));
     measure();
     return () => ro.disconnect();
-  }, [brandDx, navDx, igDx]);
+  }, [brandDx, navDx, igDx, progress]);
 
   useEffect(() => {
     if (!open) return;

@@ -28,7 +28,7 @@ export default function DrillPlayer({ steps }: { steps: string[] }) {
       <ol className="drill-steps">
         {steps.map((t, i) => (
           <li key={t} data-active={i === index} aria-current={i === index ? "step" : undefined}>
-            <b aria-hidden="true">[{i + 1}]</b>
+            <b aria-hidden="true">{i + 1}</b>
             <span>{t}</span>
           </li>
         ))}

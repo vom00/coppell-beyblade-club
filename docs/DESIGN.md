@@ -26,6 +26,10 @@ Set by the main session. Agents build to this. The club owner's instructions bea
    footer, and one RareUI-style logo row on Home labelled as the places the site links to. Never
    call them sponsors, partners or backers. Text wordmark chips where a mark is not available.
 
+9. "I dont want any more use of that font/style" (the red Geist Mono labels in square brackets and the
+   red outline pill chips). Small labels now follow ruixen.com instead: **Geist**, uppercase, tracked,
+   neutral grey, no brackets. Where section 1 below says Geist Mono or bracketed counts, this wins.
+
 ## 1. The look: RareUI's language, the club's red
 
 Observed on rareui.com (home and components pages):

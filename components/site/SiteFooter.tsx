@@ -40,7 +40,7 @@ export default function SiteFooter({
 
           <div className="site-footer__cols">
             <nav aria-label="Footer">
-              <p className="site-footer__label">[Pages]</p>
+              <p className="site-footer__label">Pages</p>
               <ul className="site-footer__list">
                 {routes.map((r) => (
                   <li key={r.id}>
@@ -50,7 +50,7 @@ export default function SiteFooter({
               </ul>
             </nav>
             <div>
-              <p className="site-footer__label">[Community]</p>
+              <p className="site-footer__label">Community</p>
               <ul className="site-footer__list">
                 <li>
                   <ExtLink href={instagram.url} context={instagram.label}>
@@ -70,7 +70,7 @@ export default function SiteFooter({
               </ul>
             </div>
             <div>
-              <p className="site-footer__label">[References]</p>
+              <p className="site-footer__label">References</p>
               <ul className="site-footer__list">
                 <li>
                   <ExtLink href={links.wboRules.url}>

@@ -7,6 +7,7 @@ import Arrows from "@/components/site/Arrows";
 import { BrandMark } from "@/components/site/Brand";
 import SectionHead from "@/components/site/SectionHead";
 import Tile from "@/components/site/Tile";
+import Clip from "@/components/site/Clip";
 import LogoRow from "@/components/site/LogoRow";
 import Reveal from "@/components/motion/Reveal";
 import SplitTitle from "@/components/motion/SplitTitle";
@@ -36,15 +37,6 @@ const finishes = [
   { name: "Burst Finish", pts: 2, top: "unicorn-delta" },
   { name: "Xtreme Finish", pts: 3, top: "drake-brave" },
 ] satisfies { name: string; pts: number; top: TopId }[];
-
-// A short silent clip inside a lane card. Nothing downloads until the visitor presses play; the poster shows first.
-function Clip({ name, label }: { name: string; label: string }) {
-  return (
-    <video className="clip" controls playsInline preload="none" poster={`/clips/${name}-poster.webp`} width={1280} height={720} aria-label={label}>
-      <source src={`/clips/${name}.mp4`} type="video/mp4" />
-    </video>
-  );
-}
 
 export default function Home() {
   return (

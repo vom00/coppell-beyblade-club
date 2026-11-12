@@ -31,7 +31,7 @@ export default function SectionHead({
         )}
         {count !== undefined && (
           <span className="sec-head__count" aria-hidden="true">
-            [{count}]
+            {count}
           </span>
         )}
       </Reveal>

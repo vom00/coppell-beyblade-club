@@ -53,7 +53,7 @@ glow gradients in `app/globals.css`) follow the Glassmorphism, Shadow and Gradie
 
 - Open Runde, SIL Open Font Licence 1.1, https://github.com/lauridskern/open-runde (licence text in `app/fonts/`)
 - Inter, SIL Open Font Licence 1.1, https://rsms.me/inter/
-- Geist Mono, SIL Open Font Licence 1.1, https://vercel.com/font
+- Geist, SIL Open Font Licence 1.1, https://vercel.com/font
 
 ## Icons and brand marks
 

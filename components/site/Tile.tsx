@@ -42,7 +42,7 @@ export default function Tile({
   const heading = title ? <h3 className="tile__title">{title}</h3> : null;
   const idx = index ? (
     <span className="tile__index" aria-hidden="true">
-      [{index}]
+      {index}
     </span>
   ) : null;
   const body =

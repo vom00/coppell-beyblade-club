@@ -1,7 +1,7 @@
 import localFont from "next/font/local";
-import { Geist_Mono, Inter } from "next/font/google";
+import { Geist, Inter } from "next/font/google";
 
-// The same three faces rareui.com uses.
+// Open Runde and Inter as on rareui.com; Geist for labels as on ruixen.com.
 
 // Headings: Open Runde (SIL OFL, github.com/lauridskern/open-runde). Exposed as --font-display.
 export const display = localFont({
@@ -22,9 +22,9 @@ export const body = Inter({
   display: "swap",
 });
 
-// Labels, hints and counts: Geist Mono. Exposed as --font-mono.
-export const mono = Geist_Mono({
+// Labels, hints and counts: Geist. Exposed as --font-label.
+export const label = Geist({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-label",
   display: "swap",
 });

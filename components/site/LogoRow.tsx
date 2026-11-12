@@ -13,7 +13,7 @@ export default function LogoRow() {
   const amazon = products.find((p) => p.retailer === "Amazon");
   return (
     <Reveal className="logos" aria-label="Places this site links to" role="group">
-      <p className="logos__label">[This site links to]</p>
+      <p className="logos__label">This site links to</p>
       <ExtLink href={links.instagram.url} className="logo-link" context="Club Instagram">
         <BrandMark brand="instagram" /> Instagram
       </ExtLink>

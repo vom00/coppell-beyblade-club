@@ -14,7 +14,8 @@
 .lane .tile__panel > * + * { margin-top: 0; }
 .lane h3 { font-size: var(--step-3); font-weight: 600; color: var(--foreground); }
 .lane .rowlinks--stack .link { min-height: 2.75rem; }
-/* z-index lifts the player above the card's stretched link, so the player and the guide link are separate targets. */
+/* With controls (reduced motion) z-index lifts the player above the card's stretched link. Without them the clip only plays, so clicks pass through to the card. */
+.clip:not([controls]) { pointer-events: none; }
 .clip { position: relative; z-index: 1; display: block; align-self: stretch; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; border: 1px solid var(--border); border-radius: var(--radius-panel); }
 .clip:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
@@ -47,7 +48,7 @@
 .note-tile .tile__panel { display: flex; gap: var(--space-4); align-items: flex-start; }
 .note-tile .tile__panel > * + * { margin-top: 0; }
 .note-tile p { max-width: var(--measure); color: var(--foreground); font-size: var(--step-0); }
-.hint { font-family: var(--font-mono-stack); font-size: 0.8125rem; color: var(--muted-foreground); }
+.hint { font-family: var(--font-label-stack); font-size: 0.8125rem; color: var(--muted-foreground); }
 .tasks { margin-top: var(--space-4); }
 .tasks ul { width: 100%; }
 .tasks li, .tasks button { max-width: 100%; }
@@ -94,7 +95,7 @@
   transition: border-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out), background-color var(--dur) var(--ease-out);
 }
 .drill-steps li[data-active="true"] { border-color: rgb(109 255 58 / 0.55); color: var(--foreground); background: var(--card); }
-.drill-steps b { font-family: var(--font-mono-stack); font-weight: 400; color: var(--brand-bright); }
+.drill-steps b { font-family: var(--font-label-stack); font-weight: 400; color: var(--brand-bright); }
 .drill-player { margin-top: var(--space-4); }
 
 /* ---------- Gear ---------- */
@@ -106,7 +107,7 @@
 .chooser__folder-art { align-items: flex-end; padding-bottom: var(--space-3); }
 /* Cards inside a folder. Sizes are in the folder's own 321px space; the folder scales the lot down. */
 .fcard { display: flex; flex-direction: column; gap: 8px; height: 100%; padding: 16px 14px; color: #111; text-align: left; }
-.fcard__shop { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono-stack); font-size: 15px; line-height: 1; color: #555; }
+.fcard__shop { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-label-stack); font-size: 15px; line-height: 1; color: #555; }
 .fcard__shop .brand-mark { width: 16px; height: 16px; }
 .fcard__name { font-family: var(--font-display-stack); font-size: 19px; font-weight: 600; line-height: 1.14; letter-spacing: var(--tracking-display); display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
 .fcard__note { font-size: 13px; line-height: 1.25; color: #555; }
@@ -158,3 +159,16 @@
 .orb-slot { position: absolute; inset: -12%; z-index: 0; opacity: 0.6; pointer-events: none; filter: blur(2px); -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent 100%); mask-image: radial-gradient(closest-side, #000 55%, transparent 100%); }
 .community-hero__crest > :not(.orb-slot) { position: relative; z-index: 1; }
 .disc .tile__foot .btn.copy-link { width: auto; justify-self: start; }
+
+/* ---------- Labels ---------- */
+/* Small labels follow ruixen.com: Geist, uppercase, tracked, neutral grey. No mono type, no brackets, no red outline pills. */
+.badge, .chip, .wordmark, .sec-head__count, .tile__index, .logos__label, .site-footer__label, .hint, .product__spec, .drill-steps b, .practice thead th {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.badge, .chip, .wordmark { border-radius: var(--radius-tag); }
+.chip--brand { background: var(--foreground); border-color: transparent; color: #111; font-weight: 600; }
+.sec-head__count, .tile__index, .product__spec, .drill-steps b { color: var(--muted-foreground); }
+.sec-head__count { font-size: 0.875rem; }
