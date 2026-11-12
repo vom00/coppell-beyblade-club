@@ -1,0 +1,326 @@
+/* Home rail sequence. Tokens only. RareUI type: Open Runde labels in sentence case on pill chips,
+   Inter body, red accents, green only for the live gauge. Layout modes:
+   - landscape (default): copy left, stadium right, sticky scrub
+   - portrait: copy (club name + actions) above the stadium, sticky scrub
+   - short landscape or reduced motion: sticky released, everything in normal flow */
+
+.section {
+  position: relative;
+  background: var(--background);
+  color: var(--foreground);
+  height: 290svh;
+}
+
+.sticky {
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100svh - var(--header-h));
+  overflow: hidden;
+}
+
+.grid {
+  box-sizing: border-box;
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 30rem) minmax(0, 1fr);
+  column-gap: var(--space-6);
+  align-items: center;
+  padding-block: var(--space-5);
+  padding-inline-start: max(var(--gutter), calc((100% - var(--wrap)) / 2 + var(--gutter)));
+  padding-inline-end: var(--gutter);
+}
+
+/* Copy layers share one grid cell and cross-fade. All stay in the DOM. */
+.copy {
+  display: grid;
+  align-items: center;
+  min-width: 0;
+}
+
+.layer {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+
+/* Caption label: a pill chip, Open Runde in sentence case. */
+.capLabel {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  margin: 0 0 var(--space-4);
+  padding: 0 var(--space-4);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display-stack);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+}
+
+.capText {
+  margin: 0;
+  max-width: var(--measure);
+  font-family: var(--font-body-stack);
+  font-size: var(--step-1);
+  line-height: 1.55;
+  color: var(--muted-foreground);
+}
+
+.still {
+  display: none;
+  width: 100%;
+  max-width: 30rem;
+  height: auto;
+  margin-top: var(--space-5);
+  color: var(--foreground);
+}
+
+/* Stage: a fixed 5:4 frame, as large as fits, so the poster and the canvas always match. */
+.stage {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+  container-type: size;
+  display: grid;
+  place-items: center;
+}
+
+.frame {
+  position: relative;
+  width: min(100cqw, 125cqh);
+  aspect-ratio: 5 / 4;
+  background: var(--background);
+  container-type: inline-size; /* scene type scales with the frame */
+}
+
+.poster,
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* the camera pushes in and crops the stadium: let the crop dissolve instead of cutting hard */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent),
+    linear-gradient(180deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent),
+    linear-gradient(180deg, transparent, #000 6%, #000 94%, transparent);
+  mask-composite: intersect;
+}
+
+.canvas {
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease-out);
+}
+
+.section[data-ready] .canvas {
+  opacity: 1;
+}
+
+.gauge {
+  z-index: 1;
+  position: absolute;
+  top: 2%;
+  left: 18%;
+  width: 64%;
+  height: auto;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.gauge line {
+  stroke: var(--foreground);
+  stroke-width: 4;
+  stroke-linecap: round;
+  opacity: 0.22;
+  transition: opacity var(--dur-fast) linear, stroke var(--dur-fast) linear;
+}
+
+/* Ticks the sequence has passed turn Xtreme green, as on the rail. */
+.gauge line[data-on="1"] {
+  stroke: var(--energy);
+  opacity: 1;
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--energy) 70%, transparent));
+}
+
+/* Scene type for the dash: oversize Open Runde in sentence case, sweeping across the frame. */
+.wordClip {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.word {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 5%;
+  margin: 0;
+  font-family: var(--font-display-stack);
+  font-size: 13cqw;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  text-align: center;
+  white-space: nowrap;
+  color: color-mix(in srgb, var(--foreground) 92%, transparent);
+  text-shadow: 0 2px 24px rgb(0 0 0 / 0.6);
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.gauge .arrow {
+  fill: var(--foreground);
+  stroke: var(--foreground);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  opacity: 0.22;
+}
+
+.gauge .arrow[data-on="1"] {
+  fill: var(--brand);
+  stroke: var(--brand);
+  opacity: 1;
+}
+
+/* Portrait: club name and actions above the stadium. */
+@media (orientation: portrait) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    align-items: stretch;
+    row-gap: var(--space-4);
+    padding-inline: var(--gutter);
+    padding-block: var(--space-5) var(--space-4);
+  }
+
+  /* captions sit in the middle of the space the intro leaves, not stuck to its top */
+  .copy {
+    align-items: center;
+  }
+
+  .capLabel,
+  .capText {
+    font-size: var(--step-0);
+  }
+}
+
+/* Short landscape and reduced motion: release the sticky layout; the copy reads in normal flow
+   and the stadium waits beside it. */
+@media (orientation: landscape) and (max-height: 520px), (prefers-reduced-motion: reduce) {
+  .section {
+    height: auto;
+  }
+
+  .sticky {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+
+  .grid {
+    align-items: start;
+    padding-block: var(--space-7);
+  }
+
+  .copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+
+  .layer {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  .stage {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-4));
+    height: min(calc(100svh - var(--header-h) - var(--space-6)), 40rem);
+  }
+
+  .gauge {
+    display: none;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  .grid {
+    padding-block: var(--space-5);
+  }
+
+  .copy {
+    gap: var(--space-6);
+  }
+
+  .capLabel,
+  .capText {
+    font-size: var(--step-0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .still {
+    display: block;
+  }
+
+  .canvas {
+    transition: none;
+  }
+
+  .word {
+    display: none;
+  }
+}
+
+/* Reduced motion on a portrait screen: one column, club name first, then the stadium. */
+@media (prefers-reduced-motion: reduce) and (orientation: portrait) {
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+
+  .copy {
+    display: contents;
+  }
+
+  .intro {
+    order: 1;
+  }
+
+  .stage {
+    order: 2;
+    position: static;
+    height: auto;
+    container-type: normal;
+    align-self: stretch;
+  }
+
+  .frame {
+    width: 100%;
+  }
+
+  .caption {
+    order: 3;
+  }
+
+  .outro {
+    order: 4;
+  }
+}
+
+/* Keep the right edge clear for the rail rider at 900px and up (last, so it wins every mode). */
+@media (min-width: 900px) {
+  .grid {
+    padding-inline-end: max(var(--gutter), 3.5rem + var(--space-3));
+  }
+}

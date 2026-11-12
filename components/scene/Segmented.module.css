@@ -1,0 +1,96 @@
+/* Pill segmented control (RareUI): a dark track, equal options, a lighter thumb that slides to the
+   chosen one, ringed in green, the site's live state. Tokens only. */
+
+.seg {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  grid-auto-rows: minmax(2.75rem, auto);
+  gap: 0;
+  padding: 4px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  isolation: isolate;
+}
+
+.thumb {
+  position: absolute;
+  z-index: -1;
+  top: 4px;
+  left: 4px;
+  width: calc((100% - 8px) / var(--cols));
+  height: calc((100% - 8px) / var(--rows));
+  border-radius: var(--radius-pill);
+  background: var(--secondary);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--energy) 45%, transparent),
+    0 0 18px -6px color-mix(in oklab, var(--energy) 45%, transparent);
+  transform: translate(calc(var(--col) * 100%), calc(var(--row) * 100%));
+  transition: transform var(--dur) var(--ease-snap);
+}
+
+/* Two rows: a rounded panel instead of a pill, so the corners do not clip the outer options. */
+.seg[data-rows] {
+  border-radius: var(--radius-panel);
+}
+
+.seg[data-rows] .thumb,
+.seg[data-rows] .opt {
+  border-radius: calc(var(--radius-panel) - 4px);
+}
+
+.opt {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: var(--space-1) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--muted-foreground);
+  font-family: var(--font-display-stack);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-align: center;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.opt:hover {
+  color: var(--foreground);
+}
+
+.opt[aria-checked="true"] {
+  color: var(--foreground);
+}
+
+.opt:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.text {
+  min-width: 0;
+  text-wrap: balance;
+}
+
+/* Narrow: tighter type. */
+@container (max-width: 24rem) {
+  .opt {
+    padding-inline: var(--space-2);
+    font-size: 0.875rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thumb,
+  .opt {
+    transition: none;
+  }
+}

@@ -1,0 +1,425 @@
+/* Motion system (v3). Tokens only; see app/tokens.css.
+   Entrances are blur-ins: opacity, blur and a small rise, staggered with --d. Nothing keeps a filter,
+   transform or will-change once it has finished. Hidden-until-revealed styles live under html.js,
+   which the layout script adds, so the site reads in full with JavaScript off. Loops are gated by
+   [data-loop] (paused offscreen and in a hidden tab) and removed under reduced motion. */
+
+/* ---------- Reveal ---------- */
+[data-reveal] {
+  transition:
+    opacity 700ms var(--ease-out) var(--d, 0ms),
+    filter 700ms var(--ease-out) var(--d, 0ms),
+    transform 800ms var(--ease-out) var(--d, 0ms);
+}
+html.js [data-reveal]:not([data-in]) { opacity: 0; filter: blur(var(--blur-in)); transform: translate3d(0, 0.5rem, 0); }
+html.js [data-reveal="left"]:not([data-in]) { transform: translate3d(-1.5rem, 0, 0); }
+html.js [data-reveal="right"]:not([data-in]) { transform: translate3d(1.5rem, 0, 0); }
+html.js [data-reveal="line"]:not([data-in]) { opacity: 1; filter: none; transform: none; }
+html.js [data-reveal="fade"]:not([data-in]) { transform: none; }
+/* the hairline under a section header grows from the left */
+[data-reveal="draw"] { transition: transform 900ms var(--ease-dash) var(--d, 0ms); transform-origin: left center; }
+html.js [data-reveal="draw"]:not([data-in]) { transform: scaleX(0); opacity: 1; filter: none; }
+/* point counters land with a short pop */
+[data-reveal="stamp"] { transition: opacity 240ms linear var(--d, 0ms), filter 300ms linear var(--d, 0ms), transform 520ms var(--ease-snap) var(--d, 0ms); }
+html.js [data-reveal="stamp"]:not([data-in]) { transform: scale(1.6); }
+
+/* Gear tiles hang from a point and swing once as they arrive. */
+[data-reveal="tag"] { transform-origin: 50% 0; }
+html.js [data-reveal="tag"]:not([data-in]) { transform: rotate(-6deg) translate3d(0, -0.75rem, 0); }
+html.js [data-reveal="tag"][data-in="1"] { animation: tag-swing 1.1s var(--ease-out) var(--d, 0ms) backwards; }
+@keyframes tag-swing {
+  0% { opacity: 0; filter: blur(var(--blur-in)); transform: rotate(-6deg) translate3d(0, -0.75rem, 0); }
+  30% { opacity: 1; filter: blur(0); }
+  45% { transform: rotate(2.6deg); }
+  65% { transform: rotate(-1.2deg); }
+  82% { transform: rotate(0.5deg); }
+  100% { transform: rotate(0); }
+}
+
+/* Revealed with no motion: it was already behind the visitor. */
+[data-reveal][data-in="instant"] {
+  transition: none !important;
+  animation: none !important;
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+
+/* ---------- Title landing: words blur in one after another ---------- */
+.st-i {
+  display: inline-block;
+  animation: st-in 700ms var(--ease-out) backwards;
+  animation-delay: calc(var(--st-delay, 120ms) + var(--i, 0) * 80ms);
+}
+@keyframes st-in {
+  from { opacity: 0; filter: blur(var(--blur-in)); transform: translate3d(0, 0.4em, 0); }
+  to { opacity: 1; filter: blur(0); transform: none; }
+}
+
+/* ---------- Page change (app/template.tsx) ----------
+   The page content blurs in, and a slim red pill sweeps across the top of the window.
+   Both are removed when they finish, so nothing is left on any ancestor of the page. */
+.page-in { animation: page-in 520ms var(--ease-out) backwards; }
+@keyframes page-in {
+  from { opacity: 0; filter: blur(var(--blur-in)); transform: translate3d(0, 0.5rem, 0); }
+  to { opacity: 1; filter: blur(0); transform: none; }
+}
+.route-sweep { position: fixed; top: 0; left: 0; right: 0; height: 4px; z-index: 95; overflow: hidden; pointer-events: none; }
+.route-sweep__pill {
+  display: block;
+  width: 38%;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, transparent, var(--brand) 40%, #fff 92%, var(--brand-bright));
+  box-shadow: 0 0 14px var(--brand);
+  transform: translate3d(-100%, 0, 0);
+  animation: route-sweep 620ms var(--ease-dash) both;
+}
+@keyframes route-sweep {
+  from { transform: translate3d(-100%, 0, 0); }
+  to { transform: translate3d(270%, 0, 0); }
+}
+
+/* ---------- Tilt ---------- */
+.tilt { height: 100%; }
+
+/* ---------- Rail rider ---------- */
+.rider {
+  --p: 0;
+  --v: 0;
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+}
+.rider__rail {
+  position: absolute;
+  display: flex;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+}
+.rider__tooth { display: block; border-radius: 2px; background: var(--fg-dim); transition: background-color 120ms linear, box-shadow 120ms linear; }
+.rider__tooth[data-on="1"] { background: var(--energy); box-shadow: 0 0 6px rgb(109 255 58 / 0.7); }
+.rider__top { position: absolute; }
+.rider__fly { position: relative; width: 100%; height: 100%; }
+.rider__sprite, .rider__glyph { position: absolute; inset: 0; width: 100%; height: 100%; animation: rider-spin 1.1s linear infinite; }
+.rider__sprite { filter: drop-shadow(0 2px 6px rgb(0 0 0 / 0.5)); }
+@keyframes rider-spin { to { transform: rotate(360deg); } }
+.rider__trace { position: absolute; display: block; border-radius: var(--radius-pill); opacity: 0.9; }
+html[data-hidden] .rider__sprite, html[data-hidden] .rider__glyph { animation-play-state: paused; }
+
+/* Wide: a vertical pill rail on the right edge, full height below the header. */
+@media (min-width: 900px) and (min-height: 521px) {
+  .rider { top: var(--header-h); right: 0; bottom: 0; width: 3.5rem; }
+  .rider__rail {
+    top: calc(0.75rem + 28px);
+    bottom: calc(0.75rem + 28px);
+    left: 50%;
+    width: 24px;
+    margin-left: -12px;
+    padding-block: 10px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .rider__tooth { width: 10px; height: 3px; }
+  .rider__tooth:nth-child(5n + 1) { width: 16px; }
+  .rider__top {
+    top: 0.75rem;
+    left: 0;
+    width: 56px;
+    height: 56px;
+    transform: translate3d(0, calc(var(--p) * (100svh - var(--header-h) - 1.5rem - 56px)), 0);
+  }
+  .rider__trace { left: 50%; width: 5px; margin-left: -2.5px; height: 130px; }
+  .rider__trace--up { bottom: 50%; transform-origin: 50% 100%; transform: scaleY(clamp(0, var(--v), 1)); background: linear-gradient(0deg, var(--energy), var(--brand) 55%, transparent); }
+  .rider__trace--down { top: 50%; transform-origin: 50% 0; transform: scaleY(clamp(0, calc(var(--v) * -1), 1)); background: linear-gradient(180deg, var(--energy), var(--brand) 55%, transparent); }
+  .rider[data-nav="a"] .rider__fly { animation: rider-hop-a 950ms var(--ease-dash) both; }
+  .rider[data-nav="b"] .rider__fly { animation: rider-hop-b 950ms var(--ease-dash) both; }
+}
+
+/* Phones and short landscape: a slim pill rail along the top, under the floating nav. */
+@media not all and (min-width: 900px) and (min-height: 521px) {
+  .rider { top: calc(var(--header-h) - 0.25rem); left: 0; right: 0; height: 8px; }
+  .rider__rail {
+    left: calc(var(--gutter) + 14px);
+    right: calc(var(--gutter) + 14px);
+    top: 1px;
+    height: 6px;
+    padding-inline: 6px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .rider__tooth { width: 2px; height: 3px; }
+  .rider__tooth:nth-child(5n + 1) { height: 4px; }
+  .rider__top {
+    top: -10px;
+    left: var(--gutter);
+    width: 28px;
+    height: 28px;
+    transform: translate3d(calc(var(--p) * (100vw - 2 * var(--gutter) - 28px)), 0, 0);
+  }
+  .rider__trace { top: 50%; height: 4px; margin-top: -2px; width: 90px; }
+  .rider__trace--up { right: 50%; transform-origin: 100% 50%; transform: scaleX(clamp(0, var(--v), 1)); background: linear-gradient(270deg, var(--energy), var(--brand) 55%, transparent); }
+  .rider__trace--down { left: 50%; transform-origin: 0 50%; transform: scaleX(clamp(0, calc(var(--v) * -1), 1)); background: linear-gradient(90deg, var(--energy), var(--brand) 55%, transparent); }
+  .rider[data-nav="a"] .rider__fly { animation: rider-hop-y-a 950ms var(--ease-dash) both; }
+  .rider[data-nav="b"] .rider__fly { animation: rider-hop-y-b 950ms var(--ease-dash) both; }
+}
+
+/* On a route change the top dashes off the rail, then drops back in at the start. */
+@keyframes rider-hop-a { 0% { transform: none; opacity: 1; } 26% { transform: translate3d(5rem, 0, 0) scale(0.9); opacity: 0; } 27% { transform: translate3d(0, -4rem, 0) scale(0.6); opacity: 0; } 100% { transform: none; opacity: 1; } }
+@keyframes rider-hop-b { 0% { transform: none; opacity: 1; } 26% { transform: translate3d(5rem, 0, 0) scale(0.9); opacity: 0; } 27% { transform: translate3d(0, -4rem, 0) scale(0.6); opacity: 0; } 100% { transform: none; opacity: 1; } }
+@keyframes rider-hop-y-a { 0% { transform: none; opacity: 1; } 26% { transform: translate3d(0, -3rem, 0) scale(0.7); opacity: 0; } 27% { transform: translate3d(-3rem, 0, 0) scale(0.6); opacity: 0; } 100% { transform: none; opacity: 1; } }
+@keyframes rider-hop-y-b { 0% { transform: none; opacity: 1; } 26% { transform: translate3d(0, -3rem, 0) scale(0.7); opacity: 0; } 27% { transform: translate3d(-3rem, 0, 0) scale(0.6); opacity: 0; } 100% { transform: none; opacity: 1; } }
+
+/* ---------- Loop gating ---------- */
+[data-loop]:not([data-live="1"]),
+[data-loop]:not([data-live="1"]) *,
+[data-loop]:not([data-live="1"]) *::before,
+[data-loop]:not([data-live="1"]) *::after,
+html[data-hidden] [data-loop],
+html[data-hidden] [data-loop] *,
+html[data-hidden] [data-loop] *::before,
+html[data-hidden] [data-loop] *::after { animation-play-state: paused !important; }
+
+/* ---------- Scene word: a faint large word that drifts behind a section header ---------- */
+.has-word { position: relative; overflow: clip; }
+.has-word > .wrap { position: relative; z-index: 1; }
+.scene-word {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 0;
+  pointer-events: none;
+  font-family: var(--font-display-stack);
+  font-weight: 700;
+  white-space: nowrap;
+  line-height: 0.8;
+  font-size: clamp(4rem, 16vw, 14rem);
+  letter-spacing: -0.05em;
+  color: rgb(255 255 255 / 0.03);
+}
+.scene-word span { display: block; }
+.scene-word--top-right { top: 0.5rem; text-align: right; }
+.scene-word--top-left { top: 0.5rem; text-align: left; }
+.scene-word--bottom-right { bottom: -0.1em; text-align: right; }
+.scene-word--bottom-left { bottom: -0.1em; text-align: left; }
+
+/* ---------- Tally: four rounded pips that fill as it scrolls in ---------- */
+.tally { display: flex; gap: var(--space-2); margin-top: var(--space-4); }
+.tally__pip {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid var(--panel-light-muted);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.tally__fill { position: absolute; inset: 0; background: var(--brand); transform-origin: 50% 100%; }
+.tally__pip b {
+  position: relative;
+  font-family: var(--font-display-stack);
+  font-size: var(--step-1);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--panel-light-fg);
+}
+
+/* ---------- Chooser: a rounded ring slides to the tile that is hovered or in view ---------- */
+.chooser { position: relative; display: grid; gap: var(--space-3); }
+@media (min-width: 52rem) { .chooser { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.chooser > li { position: relative; z-index: 1; display: flex; }
+.chooser__plate {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100px;
+  height: 100px;
+  border-radius: calc(var(--radius-card) + 4px);
+  border: 2px solid var(--brand);
+  box-shadow: 0 0 24px -4px rgb(232 18 26 / 0.55);
+  transform-origin: 0 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.chooser__plate[data-armed="1"] { transition: transform 520ms var(--ease-dash), width 520ms var(--ease-dash), height 520ms var(--ease-dash), opacity 200ms linear; }
+
+/* ---------- Diagrams (components/motion/Diagrams.tsx) ---------- */
+.dg { position: relative; background: var(--ink); border-radius: var(--radius-panel); aspect-ratio: 1; width: 100%; overflow: hidden; }
+.dg svg { width: 100%; height: 100%; }
+.dg__spin { animation: dg-turn 0.7s linear infinite; }
+.dg__spin--fast { animation-duration: 0.45s; }
+@keyframes dg-turn { to { transform: rotate(360deg); } }
+
+/* Spin finish: one top stops, the other keeps turning. */
+.dg__spin--stop { animation: dg-wind-down 4.8s cubic-bezier(0.1, 0.55, 0.3, 1) infinite; }
+@keyframes dg-wind-down {
+  0% { transform: rotate(0); }
+  62% { transform: rotate(1080deg); }
+  100% { transform: rotate(1080deg); }
+}
+
+/* Over finish: the opposing top is pushed out through a pocket. */
+.dg__push { animation: dg-push 4s var(--ease-dash) infinite; }
+.dg__leave { animation: dg-leave 4s var(--ease-dash) infinite; }
+@keyframes dg-push { 0%, 30% { transform: none; } 42% { transform: translate3d(9px, 5px, 0); } 100% { transform: translate3d(0, 0, 0); } }
+@keyframes dg-leave {
+  0%, 30% { transform: translate3d(0, 0, 0); opacity: 1; }
+  66% { transform: translate3d(42px, 16px, 0) scale(0.9); opacity: 1; }
+  78% { transform: translate3d(56px, 20px, 0) scale(0.45); opacity: 0; }
+  92% { transform: translate3d(0, 0, 0); opacity: 0; }
+  100% { transform: translate3d(0, 0, 0); opacity: 1; }
+}
+
+/* Burst finish: the top comes apart into blade, ratchet and bit, then goes back together. */
+.dg__shake { animation: dg-shake 4.4s linear infinite; }
+@keyframes dg-shake {
+  0%, 30% { transform: none; }
+  34% { transform: translate3d(-1.5px, 1px, 0); }
+  38% { transform: translate3d(1.5px, -1px, 0); }
+  42%, 100% { transform: none; }
+}
+.dg__piece--blade { animation: dg-blade 4.4s var(--ease-dash) infinite; }
+.dg__piece--ratchet { animation: dg-ratchet 4.4s var(--ease-dash) infinite; }
+.dg__piece--bit { animation: dg-bit 4.4s var(--ease-dash) infinite; }
+@keyframes dg-blade { 0%, 42% { transform: none; opacity: 1; } 70% { transform: translate3d(-26px, -18px, 0) rotate(160deg); opacity: 1; } 88% { transform: translate3d(-32px, -22px, 0) rotate(220deg); opacity: 0; } 94% { transform: none; opacity: 0; } 100% { transform: none; opacity: 1; } }
+@keyframes dg-ratchet { 0%, 42% { transform: none; opacity: 0.9; } 70% { transform: translate3d(24px, -22px, 0) rotate(-140deg); opacity: 1; } 88% { transform: translate3d(30px, -26px, 0) rotate(-200deg); opacity: 0; } 94% { transform: none; opacity: 0; } 100% { transform: none; opacity: 0.9; } }
+@keyframes dg-bit { 0%, 42% { transform: none; opacity: 1; } 70% { transform: translate3d(4px, 26px, 0); opacity: 1; } 88% { transform: translate3d(6px, 32px, 0); opacity: 0; } 94% { transform: none; opacity: 0; } 100% { transform: none; opacity: 1; } }
+
+/* Xtreme finish: the opposing top is sent through the green zone at the top. */
+.dg__fly { animation: dg-fly 3.6s var(--ease-dash) infinite; }
+.dg__trace { transform-origin: 0 0; animation: dg-trace 3.6s var(--ease-dash) infinite; opacity: 0; }
+.dg__zone { animation: dg-zone 3.6s linear infinite; }
+@keyframes dg-fly {
+  0%, 34% { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
+  52% { transform: translate3d(0, -50px, 0) scale(0.8); opacity: 1; }
+  60% { transform: translate3d(0, -60px, 0) scale(0.4); opacity: 0; }
+  90% { transform: translate3d(0, 0, 0) scale(1); opacity: 0; }
+  100% { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
+}
+@keyframes dg-trace { 0%, 34% { opacity: 0; transform: scaleY(0); } 44% { opacity: 1; transform: scaleY(1); } 60%, 100% { opacity: 0; transform: scaleY(1); } }
+@keyframes dg-zone { 0%, 36% { opacity: 0.55; } 52% { opacity: 1; } 70%, 100% { opacity: 0.55; } }
+
+/* Type diagrams: each top follows its own route. */
+.dg__route { animation-iteration-count: infinite; animation-timing-function: linear; }
+.dg--attack .dg__route { animation: dg-attack 2.6s cubic-bezier(0.6, 0, 0.3, 1) infinite; }
+@keyframes dg-attack {
+  0%, 100% { transform: translate3d(-38px, 26px, 0); }
+  20% { transform: translate3d(36px, -30px, 0); }
+  40% { transform: translate3d(-32px, -26px, 0); }
+  60% { transform: translate3d(34px, 28px, 0); }
+  80% { transform: translate3d(-4px, 0, 0); }
+}
+.dg--defense .dg__route { animation: dg-hold 3.2s ease-in-out infinite; }
+@keyframes dg-hold {
+  0%, 60%, 100% { transform: translate3d(0, 0, 0); }
+  66% { transform: translate3d(-3px, 1px, 0); }
+  72% { transform: translate3d(3px, -1px, 0); }
+  78% { transform: translate3d(-2px, 0, 0); }
+  84% { transform: translate3d(0, 0, 0); }
+}
+.dg__shield { transform-origin: 60px 60px; animation: dg-shield 3.2s ease-out infinite; }
+@keyframes dg-shield { 0%, 55% { transform: scale(1); opacity: 0.9; } 100% { transform: scale(1.7); opacity: 0; } }
+.dg--stamina .dg__route { animation: dg-orbit 7s linear infinite; }
+@keyframes dg-orbit { from { transform: rotate(0deg) translateX(30px); } to { transform: rotate(360deg) translateX(30px); } }
+.dg--balance .dg__route { animation: dg-mix 7.5s linear infinite; }
+@keyframes dg-mix {
+  0%, 100% { transform: translate3d(30px, 0, 0); }
+  14% { transform: translate3d(21px, 21px, 0); }
+  28% { transform: translate3d(0, 30px, 0); }
+  42% { transform: translate3d(-21px, 21px, 0); }
+  52% { transform: translate3d(-30px, 0, 0); }
+  58% { transform: translate3d(-24px, -18px, 0); }
+  66% { transform: translate3d(34px, -20px, 0); }
+  80% { transform: translate3d(22px, -26px, 0); }
+}
+
+/* ---------- Rail catch loop ---------- */
+.rcl__rail { animation: rcl-slide 1.3s linear infinite; }
+@keyframes rcl-slide { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(36px, 0, 0); } }
+.rcl__gear { transform-origin: 300px 196px; animation: rcl-turn 1.3s linear infinite; }
+@keyframes rcl-turn { from { transform: rotate(0deg); } to { transform: rotate(30deg); } }
+.rcl__live { animation: rcl-live 1.3s ease-in-out infinite; }
+@keyframes rcl-live { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+.rcl__chev { animation: rcl-chev 1.3s ease-in-out infinite; }
+@keyframes rcl-chev { 0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.5; } 50% { transform: translate3d(-12px, 0, 0); opacity: 1; } }
+
+/* ---------- Glyph ---------- */
+.glyph { width: 2.75rem; height: 2.75rem; flex: none; }
+.glyph__spin { transform-origin: 24px 24px; animation: glyph-turn 2.4s linear infinite; }
+@keyframes glyph-turn { to { transform: rotate(360deg); } }
+
+/* ---------- Crest ring ---------- */
+.cr { position: relative; width: 100%; aspect-ratio: 1; display: grid; place-items: center; }
+.cr > * { grid-area: 1 / 1; }
+.cr__crest { position: relative; z-index: 2; width: 66%; height: auto; }
+.cr__ticks { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; overflow: visible; }
+.cr__outer { transform-origin: 100px 100px; animation: cr-turn 90s linear infinite; }
+@keyframes cr-turn { to { transform: rotate(360deg); } }
+.cr__inner line { stroke: #e7e7e7; opacity: 0.45; animation: cr-tick 7s linear infinite; }
+@keyframes cr-tick {
+  0% { stroke: var(--energy); opacity: 1; }
+  7% { stroke: var(--energy); opacity: 1; }
+  22%, 100% { stroke: #e7e7e7; opacity: 0.45; }
+}
+.cr__sweep {
+  position: absolute;
+  inset: 4%;
+  z-index: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0deg, transparent 250deg, rgb(109 255 58 / 0.04) 290deg, rgb(109 255 58 / 0.3) 360deg);
+  animation: cr-sweep 7s linear infinite;
+  mask-image: radial-gradient(circle, transparent 30%, #000 31%);
+  -webkit-mask-image: radial-gradient(circle, transparent 30%, #000 31%);
+}
+@keyframes cr-sweep { to { transform: rotate(360deg); } }
+.cr__ping {
+  position: absolute;
+  inset: 22%;
+  z-index: 0;
+  border-radius: 50%;
+  border: 2px solid var(--energy);
+  opacity: 0;
+  animation: cr-ping 4.8s ease-out infinite;
+}
+@keyframes cr-ping { 0% { transform: scale(0.7); opacity: 0.55; } 100% { transform: scale(1.55); opacity: 0; } }
+.cr__blip {
+  position: absolute;
+  z-index: 0;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin: -0.35rem 0 0 -0.35rem;
+  border-radius: 50%;
+  background: var(--energy);
+  box-shadow: 0 0 12px 2px rgb(109 255 58 / 0.7);
+  opacity: 0;
+  animation: cr-blip 7s linear infinite;
+}
+@keyframes cr-blip { 0% { opacity: 1; transform: scale(1.4); } 14% { opacity: 0.8; transform: scale(1); } 40%, 100% { opacity: 0; transform: scale(0.6); } }
+
+/* ---------- Reduced motion: nothing loops, nothing is hidden, nothing drifts ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .page-in, .route-sweep { animation: none !important; }
+  .route-sweep { display: none; }
+  html.js [data-reveal] {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+  .st-i { animation: none; }
+  [data-loop], [data-loop] *, [data-loop] *::before, [data-loop] *::after { animation: none !important; }
+  .rider__sprite, .rider__glyph, .rider__fly { animation: none !important; }
+  .rider__trace { display: none; }
+  .rider__tooth { transition: none; }
+  .chooser__plate { transition: none !important; }
+  .cr__inner line { stroke: #e7e7e7; opacity: 0.45; }
+  .cr__blip { opacity: 0.8; }
+  .cr__ping, .cr__sweep { display: none; }
+  .glow-slot { display: none; }
+}

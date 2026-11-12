@@ -1,0 +1,152 @@
+/* Parts conveyor: one RareUI card-in-card block. The canvas sits in the inner panel; the selector
+   and the copy share the outer card. Side by side when the card is wide, stacked when narrow. */
+
+.root {
+  container-type: inline-size;
+  min-width: 0;
+}
+
+.card {
+  display: grid;
+  gap: 6px;
+  padding: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.stage {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--card-2);
+  border-radius: var(--radius-panel);
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+}
+
+.poster,
+.canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.poster {
+  object-fit: cover;
+  transition: opacity var(--dur-slow) var(--ease-out);
+}
+
+.canvas {
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-out);
+}
+
+.stage[data-ready] .canvas {
+  opacity: 1;
+}
+
+.stage[data-ready] .poster {
+  opacity: 0;
+}
+
+/* status chip over the panel, mono in brackets: green text only while the belt runs */
+.status {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  padding: 0 var(--space-3);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-pill);
+  color: var(--muted-foreground);
+  font-family: var(--font-mono-stack);
+  font-size: 0.75rem;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.status[data-live] {
+  color: var(--energy);
+  border-color: color-mix(in oklab, var(--energy) 40%, transparent);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+  padding: var(--space-3) var(--space-3) var(--space-4);
+}
+
+.copy {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.count {
+  font-family: var(--font-mono-stack);
+  font-size: var(--step--1);
+  color: var(--brand-bright);
+  letter-spacing: 0;
+}
+
+.name {
+  font-family: var(--font-display-stack);
+  font-size: var(--step-3);
+  font-weight: 700;
+  letter-spacing: var(--tracking-display);
+  line-height: 1.05;
+  color: var(--foreground);
+}
+
+.summary {
+  max-width: 44ch;
+  color: var(--muted-foreground);
+  line-height: 1.55;
+}
+
+/* Wide card: canvas left, selector and copy right, centred on the panel. */
+@container (min-width: 44rem) {
+  .card {
+    grid-template-columns: minmax(0, 1.55fr) minmax(16rem, 1fr);
+    align-items: stretch;
+  }
+
+  .info {
+    justify-content: center;
+    gap: var(--space-5);
+    padding: var(--space-5) var(--space-5) var(--space-5) var(--space-4);
+  }
+}
+
+/* Short landscape phones: keep the panel inside the screen height. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .stage {
+    aspect-ratio: auto;
+    height: min(calc(100svh - 6rem), 22rem);
+  }
+
+  .name {
+    font-size: var(--step-2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster,
+  .canvas {
+    transition: none;
+  }
+}

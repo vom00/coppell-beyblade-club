@@ -1,0 +1,214 @@
+/* Display bay: one RareUI card-in-card block. The canvas sits in the inner panel; the selector,
+   the name, the code chip and the parts list share the outer card. Side by side when wide. */
+
+.root {
+  container-type: inline-size;
+  min-width: 0;
+}
+
+.card {
+  display: grid;
+  gap: 6px;
+  padding: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.stage {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--card-2);
+  border-radius: var(--radius-panel);
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+}
+
+.poster,
+.canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.poster {
+  object-fit: cover;
+  transition: opacity var(--dur-slow) var(--ease-out);
+}
+
+.canvas {
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-out);
+}
+
+.stage[data-ready] .canvas {
+  opacity: 1;
+}
+
+.stage[data-ready] .poster {
+  opacity: 0;
+}
+
+.status {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  padding: 0 var(--space-3);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-pill);
+  color: var(--muted-foreground);
+  font-family: var(--font-mono-stack);
+  font-size: 0.75rem;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: pulse 1.2s var(--ease-out) infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+  padding: var(--space-3) var(--space-3) var(--space-4);
+}
+
+.copy {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+
+.name {
+  font-family: var(--font-display-stack);
+  font-size: var(--step-2);
+  font-weight: 700;
+  letter-spacing: var(--tracking-display);
+  line-height: 1.1;
+  color: var(--foreground);
+  overflow-wrap: anywhere;
+}
+
+/* product code: mono pill chip in the brand red */
+.code {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  padding: 0 0.75rem 0 0.625rem;
+  /* A slanted product-code plate: dark metal, a red edge, the display face in white. */
+  background: linear-gradient(180deg, #2b2b2b, #151515);
+  border: 1px solid rgb(255 255 255 / 0.14);
+  border-left: 3px solid var(--brand);
+  border-radius: 0.3rem;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);
+  transform: skewX(-10deg);
+  color: var(--foreground);
+  font-family: var(--font-display-stack);
+  font-size: 0.875rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.list {
+  display: grid;
+  margin: 0;
+  background: var(--card-2);
+  border-radius: var(--radius-panel);
+  padding: var(--space-1) var(--space-4);
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--border);
+}
+
+.row:first-child {
+  border-top: 0;
+}
+
+/* facts after the parts: a slightly stronger rule marks the change */
+.row:not([data-fact]) + .row[data-fact] {
+  border-top-color: var(--border-strong);
+  margin-top: var(--space-1);
+}
+
+.row dt {
+  color: var(--muted-foreground);
+  font-size: 0.9375rem;
+}
+
+.row dd {
+  margin: 0;
+  color: var(--foreground);
+  font-family: var(--font-mono-stack);
+  font-size: 0.875rem;
+  text-align: right;
+}
+
+@container (min-width: 44rem) {
+  .card {
+    grid-template-columns: minmax(0, 1.3fr) minmax(19rem, 1fr);
+    align-items: stretch;
+  }
+
+  /* A definite width keeps the stage in its column: when the info column is the taller one (six
+     options in two rows), the stretched height would otherwise widen it through aspect-ratio. */
+  .stage {
+    width: 100%;
+  }
+
+  .info {
+    justify-content: center;
+    gap: var(--space-5);
+    padding: var(--space-5) var(--space-5) var(--space-5) var(--space-4);
+  }
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  .stage {
+    aspect-ratio: auto;
+    height: min(calc(100svh - 6rem), 22rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster,
+  .canvas {
+    transition: none;
+  }
+
+  .status {
+    animation: none;
+  }
+}

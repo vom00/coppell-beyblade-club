@@ -1,0 +1,340 @@
+/* Learn workbench, drawn like the official parts diagram. Tokens only. Modes:
+   - default: sticky scrub, large part names beside the diagram on leader lines (RareUI type:
+     Open Runde headings in sentence case, Inter body, Geist Mono hint and numbers)
+   - reduced motion: already exploded, no sticky, same leader-line labels
+   - phone portrait: the diagram sticks at the top while the numbered labels scroll beneath it
+   - short landscape: already exploded, diagram and numbered labels side by side in flow */
+
+.section {
+  position: relative;
+  background: var(--background);
+  color: var(--foreground);
+  height: 240svh;
+}
+
+.sticky {
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100svh - var(--header-h));
+  overflow: hidden;
+}
+
+.bench {
+  position: relative;
+  box-sizing: border-box;
+  height: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding: var(--space-6) var(--gutter);
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  column-gap: var(--space-8);
+}
+
+.stage {
+  position: relative;
+  min-height: 0;
+  container-type: size;
+  display: grid;
+  place-items: center;
+}
+
+.frame {
+  position: relative;
+  width: min(100cqw, calc(100cqh - 2.5rem));
+  aspect-ratio: 1;
+  background: var(--background);
+  touch-action: pan-y; /* sideways drags turn the top; vertical swipes still scroll */
+  outline: none;
+}
+
+.frame[data-interactive] {
+  cursor: grab;
+}
+
+.frame[data-interactive]:active {
+  cursor: grabbing;
+}
+
+.frame:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+  border-radius: var(--radius-panel);
+}
+
+.poster,
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.canvas {
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease-out);
+}
+
+.section[data-ready] .canvas {
+  opacity: 1;
+}
+
+.hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-mono-stack);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--muted-foreground);
+}
+
+.hint::before {
+  content: "[";
+}
+
+.hint::after {
+  content: "]";
+}
+
+.hint[hidden] {
+  display: none;
+}
+
+/* Anchor dot where each leader line meets its part. */
+.marker {
+  position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 0.875rem;
+  height: 0.875rem;
+  margin: -0.4375rem 0 0 -0.4375rem;
+  border: 2px solid var(--foreground);
+  border-radius: 50%;
+  background: var(--brand);
+  font-size: 0;
+  pointer-events: none;
+  box-shadow: 0 0 0 3px rgb(0 0 0 / 0.55), 0 0 0.75rem rgb(232 18 26 / 0.55);
+}
+
+.labels {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  max-width: 28rem;
+}
+
+/* Part names: large Open Runde, sentence case, tight tracking. */
+.name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-display-stack);
+  font-size: clamp(2.25rem, 1.3rem + 2.6vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  color: var(--foreground);
+}
+
+.nameText {
+  min-width: 0;
+}
+
+.num {
+  display: none;
+}
+
+.summary {
+  margin: 0;
+  max-width: 34ch;
+  font-family: var(--font-body-stack);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  color: var(--muted-foreground);
+}
+
+.leaders {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.leaders path {
+  fill: none;
+  stroke: color-mix(in srgb, var(--foreground) 55%, transparent);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Keep the right edge clear for the rail rider. */
+@media (min-width: 900px) {
+  .bench {
+    padding-inline-end: max(var(--gutter), 3.5rem + var(--space-3));
+  }
+}
+
+/* Reduced motion: no scrub; the exploded diagram sits in normal flow. */
+@media (prefers-reduced-motion: reduce) {
+  .section {
+    height: auto;
+  }
+
+  .sticky {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+
+  .bench {
+    height: min(88svh, 46rem);
+  }
+
+  .canvas {
+    transition: none;
+  }
+}
+
+/* Numbered labels in a list below (phone) or beside (short landscape) the diagram, tied to
+   numbered markers on the parts. */
+@media (max-width: 639px), (orientation: landscape) and (max-height: 520px) {
+  .bench {
+    height: auto;
+    display: block;
+    padding-block: var(--space-4);
+  }
+
+  .stage {
+    container-type: normal;
+    display: block;
+  }
+
+  .frame {
+    width: min(100%, 40svh);
+    margin-inline: auto;
+  }
+
+  .hint {
+    position: static;
+    margin-top: var(--space-2);
+  }
+
+  .marker {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: -0.75rem 0 0 0.25rem;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgb(255 255 255 / 0.85);
+    border-radius: var(--radius-pill);
+    background: var(--brand);
+    color: var(--brand-fg);
+    font-family: var(--font-mono-stack);
+    font-size: 0.75rem;
+    font-weight: 500;
+    box-shadow: 0 0 0 3px rgb(0 0 0 / 0.55);
+  }
+
+  .labels {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  .label {
+    position: static;
+    transform: none !important;
+    max-width: none;
+  }
+
+  .name {
+    margin-bottom: var(--space-1);
+    font-size: var(--step-3);
+  }
+
+  .num {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 1px solid rgb(232 18 26 / 0.45);
+    border-radius: var(--radius-pill);
+    background: rgb(232 18 26 / 0.14);
+    color: var(--brand-bright);
+    font-family: var(--font-mono-stack);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  .summary {
+    max-width: var(--measure);
+    font-size: var(--step--1);
+  }
+
+  .leaders {
+    display: none;
+  }
+}
+
+/* Short landscape: release the sticky layout; exploded diagram and list side by side. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .section {
+    height: auto;
+  }
+
+  .sticky {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+
+  .bench {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: var(--space-6);
+    align-items: start;
+    padding-block: var(--space-6);
+  }
+
+  .frame {
+    width: min(40vw, 78svh);
+  }
+
+  .labels {
+    margin-top: 0;
+  }
+
+  .name {
+    font-size: var(--step-2);
+  }
+}
+
+/* Phone with reduced motion: ordinary flow. */
+@media (max-width: 639px) and (prefers-reduced-motion: reduce) {
+  .bench {
+    padding-block: var(--space-6);
+  }
+}

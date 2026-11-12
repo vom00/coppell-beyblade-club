@@ -1,0 +1,146 @@
+/* Coppell Beyblade Club: design tokens (v3).
+   The interface follows rareui.com: black ground, near-black cards, one accent, big radii.
+   The accent is the crest's red. The first block is a shadcn theme in the 19-variable form the
+   Ruixen Shadcn Theme Generator outputs (OKLCH), so RareUI and Ruixen components read it as is. */
+
+:root {
+  color-scheme: dark;
+
+  /* shadcn theme (dark only) */
+  --background: oklch(0 0 0); /* #000 */
+  --foreground: oklch(0.93 0 0); /* #e7e7e7 */
+  --card: oklch(0.17 0 0); /* #0e0e0e */
+  --card-foreground: oklch(0.93 0 0);
+  --popover: oklch(0.19 0 0);
+  --popover-foreground: oklch(0.93 0 0);
+  --primary: oklch(0.59 0.24 27); /* crest red #e8121a */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.24 0 0); /* #1f1f1f */
+  --secondary-foreground: oklch(0.93 0 0);
+  --muted: oklch(0.21 0 0); /* #171717 */
+  --muted-foreground: oklch(0.72 0 0); /* #a3a3a3, 8.9:1 on black */
+  --accent: oklch(0.26 0 0); /* hover surface */
+  --accent-foreground: oklch(0.97 0 0);
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.29 0 0); /* #2a2a2a */
+  --input: oklch(0.29 0 0);
+  --ring: oklch(0.93 0 0);
+  --radius: 0.875rem;
+
+  /* Club extras */
+  --brand: #e8121a; /* crest red: primary buttons, arrows, bracket counts */
+  --brand-bright: #ff5148; /* small red text on black: 6.2:1 */
+  --brand-fg: #ffffff;
+  --energy: #6dff3a; /* Xtreme green: live states only (rail, progress, selected part) */
+  --card-2: #141414; /* inner dark panel */
+  --border-strong: #3a3a3a;
+  --fg-dim: #7a7a7a; /* decorative text only, not body copy */
+  --panel-light: #ececec; /* light inner panel for diagrams */
+  --panel-light-fg: #111111;
+  --panel-light-muted: #4a4a4a;
+  --focus: #ffffff;
+
+  /* Radii */
+  --radius-card: 1.25rem;
+  --radius-panel: 0.875rem;
+  --radius-pill: 999px;
+
+  /* Shadows and glass, in the forms the Ruixen Shadow and Glassmorphism generators output */
+  --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 12px 32px -12px rgb(0 0 0 / 0.8);
+  --shadow-glow: 0 0 0 1px rgb(232 18 26 / 0.5), 0 8px 28px -6px rgb(232 18 26 / 0.55);
+  --glass-bg: rgb(20 20 20 / 0.72);
+  --glass-blur: blur(14px) saturate(140%);
+  --glass-border: 1px solid rgb(255 255 255 / 0.08);
+  /* Ruixen Gradient Generator: radial glow behind heroes and calls to action */
+  --glow-brand: radial-gradient(60% 60% at 50% 100%, rgb(232 18 26 / 0.28) 0%, rgb(232 18 26 / 0) 70%);
+
+  /* Type */
+  --font-display-stack: var(--font-display), "Open Runde", "Inter", system-ui, sans-serif;
+  --font-body-stack: var(--font-body), "Inter", system-ui, sans-serif;
+  --font-mono-stack: var(--font-mono), "Geist Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+  --tracking-display: -0.025em;
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+  --step-2: clamp(1.375rem, 1.2rem + 0.7vw, 1.75rem);
+  --step-3: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+  --step-4: clamp(2.25rem, 1.6rem + 2.8vw, 3.5rem);
+  --step-5: clamp(2.5rem, 1.5rem + 4.6vw, 4.5rem); /* h1 only */
+
+  /* Space */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --space-9: clamp(4rem, 3rem + 5vw, 7rem); /* section padding */
+
+  /* Layout */
+  --wrap: 68rem;
+  --gutter: clamp(1rem, 0.5rem + 3vw, 2.5rem);
+  --header-h: 4.5rem; /* the floating nav and its top gap */
+  --measure: 60ch;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-snap: cubic-bezier(0.2, 1.3, 0.3, 1);
+  --ease-dash: cubic-bezier(0.7, 0, 0.2, 1);
+  --dur-fast: 140ms;
+  --dur: 240ms;
+  --dur-slow: 700ms;
+  --blur-in: 12px;
+
+  /* Ground variables (one dark ground; kept so older CSS keeps reading them) */
+  --bg: #000000;
+  --surface: #0e0e0e;
+  --line: #2a2a2a;
+  --fg: #e7e7e7;
+  --fg-muted: #a3a3a3;
+  --accent-text: var(--brand-bright);
+  --diagram: #e7e7e7;
+
+  /* Legacy names from v1 and v2. New CSS should not use these. */
+  --ink: #000000;
+  --ink-2: #0e0e0e;
+  --ink-3: #2a2a2a;
+  --paper: #ececec;
+  --paper-2: #e0e0e0;
+  --paper-3: #c9c9c9;
+  --red: var(--brand);
+  --red-bright: var(--brand-bright);
+  --burgundy: #7b1817;
+  --burgundy-deep: #3b0c0d;
+  --steel: #c5c9cf;
+  --steel-dim: #8b9099;
+  --xtreme: var(--energy);
+  --xtreme-deep: #0c7a2e;
+  --teal: #e7e7e7;
+  --teal-deep: #111111;
+  --amber: #ffb423;
+  --violet: #8a5cff;
+  --slant: 0rem;
+  --cut-band: none;
+}
+
+/* The light inner panel: a diagram surface inside a dark card. */
+[data-ground="paper"],
+[data-panel="light"] {
+  --bg: var(--panel-light);
+  --surface: #e0e0e0;
+  --line: #c9c9c9;
+  --fg: var(--panel-light-fg);
+  --fg-muted: var(--panel-light-muted);
+  --accent-text: #b30d14; /* 6.4:1 on the light panel */
+  --energy: #0c7a2e;
+  --diagram: #111111;
+  --focus: #111111;
+  color-scheme: light;
+}
+
+[data-ground="ink"] {
+  color-scheme: dark;
+}
