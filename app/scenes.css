@@ -108,20 +108,16 @@
 .fcard__name { font-family: var(--font-display-stack); font-size: 19px; font-weight: 600; line-height: 1.14; letter-spacing: var(--tracking-display); display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
 .fcard__note { font-size: 13px; line-height: 1.25; color: #555; }
 .tag-slot, .tag-slot > [data-reveal], .tag-slot .tilt, .tag-slot .tile { height: 100%; }
-.picture-note { margin-top: var(--space-4); font-size: var(--step--1); max-width: 60ch; }
-/* Pictures of tops and the shopping bag on tiles */
+/* Product photos and rendered tops on tiles */
 .top-img { display: block; width: 3.5rem; height: 3.5rem; flex: none; object-fit: contain; filter: drop-shadow(0 8px 10px rgb(0 0 0 / 0.55)); transition: transform var(--dur) var(--ease-out); }
 .tile:hover .top-img { transform: translateY(-3px) rotate(-6deg) scale(1.06); }
 .product__pic { width: 5rem; height: 5rem; }
+.product__top .chips { min-width: 0; }
+.product__top .chip { white-space: normal; line-height: 1.25; padding-block: 0.25rem; }
 .deck__pic { width: 5.5rem; height: 5.5rem; }
 .fin .top-img { width: 4rem; height: 4rem; }
-.bag { display: block; flex: none; overflow: visible; filter: drop-shadow(0 8px 10px rgb(0 0 0 / 0.55)); }
-.bag__swing { transform-origin: 24px 8px; transition: transform var(--dur) var(--ease-out); }
-.tile:hover .bag__swing { animation: bag-swing 1.1s var(--ease-out) 1; }
-@keyframes bag-swing { 0% { transform: rotate(0); } 25% { transform: rotate(-9deg); } 55% { transform: rotate(6deg); } 80% { transform: rotate(-3deg); } 100% { transform: rotate(0); } }
 @media (prefers-reduced-motion: reduce) {
   .tile:hover .top-img { transform: none; }
-  .tile:hover .bag__swing { animation: none; }
 }
 
 /* ---------- Community ---------- */

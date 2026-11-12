@@ -17,7 +17,7 @@ All three must pass. `npm run check:content -- --online` also requests every ext
 - Every link, product ID, video ID and timestamp lives in `lib/content.ts`. Change them there, never in a page.
 - Do not invent facts: no dates, events, member counts, testimonials or prices.
 - Page text is plain. No em or en dashes, no "not X but Y" contrasts, no one-line closers, no hype words.
-- The pictures on the Gear tiles are renders of the club's models, not product photos. Keep the note on the page that says so.
+- Gear tiles use actual product photos in `public/products/`, named by retailer product ID. Verify the exact version and record the photo source in `docs/CREDITS.md`.
 
 ## Design rules
 
