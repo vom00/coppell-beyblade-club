@@ -66,9 +66,11 @@ export default function PracticeSheet({ rounds = 4 }: { rounds?: number }) {
         <tbody>
           {rows.map((r, i) => (
             <tr key={i}>
-              <th scope="row">{i + 1}</th>
+              <th scope="row"><span className="practice__round-label">Round </span>{i + 1}</th>
               <td>
+                <label className="practice__field-label" htmlFor={`round-${i}-angle`}>Launch angle</label>
                 <input
+                  id={`round-${i}-angle`}
                   type="text"
                   value={r.angle}
                   onChange={(e) => set(i, "angle", e.target.value)}
@@ -78,7 +80,9 @@ export default function PracticeSheet({ rounds = 4 }: { rounds?: number }) {
                 />
               </td>
               <td>
+                <label className="practice__field-label" htmlFor={`round-${i}-result`}>What the top did</label>
                 <input
+                  id={`round-${i}-result`}
                   type="text"
                   value={r.result}
                   onChange={(e) => set(i, "result", e.target.value)}

@@ -497,8 +497,10 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
   top: calc(100% + 0.5rem);
   left: 0;
   right: 0;
-  max-height: calc(100svh - var(--header-h) - 1rem);
+  max-height: calc(100svh - var(--header-h) - var(--space-5));
+  max-height: calc(100dvh - var(--header-h) - var(--space-5) - env(safe-area-inset-bottom, 0px));
   overflow-y: auto;
+  overscroll-behavior-y: contain;
   padding: var(--space-3);
   background: var(--popover);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -598,11 +600,13 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
 
 /* ---------- Video ---------- */
 .video { width: 100%; }
-.video__stage { aspect-ratio: 16 / 9; background: var(--card-2); border-radius: var(--radius-panel); overflow: hidden; }
+.video__stage { display: grid; background: var(--card-2); border-radius: var(--radius-panel); overflow: hidden; }
+.video__stage[data-playing="true"] { aspect-ratio: 16 / 9; }
+.video__stage[data-playing="false"]::before { content: ""; grid-area: 1 / 1; width: 100%; aspect-ratio: 16 / 9; pointer-events: none; }
 .video__stage iframe { width: 100%; height: 100%; border: 0; }
 .video__facade {
   position: relative;
-  height: 100%;
+  grid-area: 1 / 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -688,6 +692,19 @@ h3 { font-size: var(--step-1); line-height: 1.2; }
   padding: 0 var(--space-3);
 }
 .practice input:focus-visible { outline-offset: 1px; }
+.practice { container-type: inline-size; }
+.practice__field-label, .practice__round-label { display: none; }
+@container (max-width: 24rem) {
+  .practice table, .practice tbody, .practice tr, .practice td { display: block; }
+  .practice thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .practice tbody tr { padding-block: var(--space-3); border-top: 1px solid var(--border); }
+  .practice tbody th { display: block; width: auto; padding: 0 0 var(--space-2); }
+  .practice td { padding: 0; }
+  .practice td + td { margin-top: var(--space-2); }
+  .practice__round-label { display: inline; }
+  .practice__field-label { display: block; font-size: var(--step--1); color: var(--muted-foreground); }
+  .practice input { font-size: 1rem; }
+}
 
 /* ---------- Gear ---------- */
 .shelf { margin-top: var(--space-5); }
