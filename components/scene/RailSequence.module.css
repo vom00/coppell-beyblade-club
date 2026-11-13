@@ -212,6 +212,25 @@
   }
 }
 
+/* Portrait with the scrub: the intro is far taller than the captions, and sizing the copy row for it
+   left a phone's stadium about 70px high. So the intro covers the whole screen as the opening and
+   fades off the stadium, and the copy row is sized for the captions. */
+@media (orientation: portrait) and (prefers-reduced-motion: no-preference) {
+  .grid {
+    position: relative;
+  }
+
+  .intro {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    display: grid;
+    align-content: center;
+    padding: var(--space-5) var(--gutter);
+    background: var(--background);
+  }
+}
+
 /* Short landscape and reduced motion: release the sticky layout; the copy reads in normal flow
    and the stadium waits beside it. */
 @media (orientation: landscape) and (max-height: 520px), (prefers-reduced-motion: reduce) {
