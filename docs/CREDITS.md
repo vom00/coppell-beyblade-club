@@ -21,7 +21,7 @@ Installed with `npx shadcn@latest add swamimalode07/rare-ui/<name>` into `compon
 
 Changes made to installed RareUI files, all small: `folder-component` gained `cards` (real content on up to three
 cards) and `open` (opened by the tile around it), and its stock cards got a fixed size because they collapsed to nothing
-under the site's image rule; `fluid-orb` gained a `base` colour prop (RareUI's white is still the
+under the site's image rule; its SVG filter id is unique per folder (it was repeated on the page); `fluid-orb` gained a `base` colour prop (RareUI's white is still the
 default) and stops drawing while offscreen or in a hidden tab; the accent `#FC4C01` in `toast` and `faq` is the club red.
 Tried and removed: `bounce-sidebar` and `proximity-sidebar` (hook-sidebar fit the phone menu better). The Scroll Progress
 indicator was left out because the rail rider already shows scroll progress.
@@ -31,7 +31,7 @@ Licence as stated in https://github.com/swamimalode07/rare-ui/blob/main/LICENSE:
 attribution requirement. The attribution requirement is met by the visible link to rareui.com in the site footer. The
 components are used inside this site and are not redistributed on their own. The name Rare UI, its logo and its site
 design are not covered by the licence; this site follows RareUI's visual language (black ground, card in card tiles,
-pill controls, bracketed counts) and uses the club's own colours and crest.
+pill controls) and uses the club's own colours and crest.
 
 ### Ruixen UI (https://ruixen.com/)
 
@@ -40,10 +40,15 @@ Installed with `npx shadcn@latest add "https://ruixen.com/r/<name>"` into `compo
 - `wordmark-footer` (footer wordmark)
 - `rising-glow` (Instagram call on Home)
 - `badge-morph` ("External community" chip on Community)
+- `banner-announcement` (the meeting notice above the display bay on Home)
+- `scramble-text` (the room number in the Meetings section on Community; it decodes on hover)
 
 Licence: no licence file was found in the Ruixen repositories checked, so the licence is to be confirmed by the club.
 The components are restyled through tokens and class names; behaviour is unchanged except that looping motion stops
 under reduced motion, the wordmark footer is tall enough to show the whole word, and the idle badge has no dot.
+The banner's shimmer uses a plain white tint (the site's `--foreground` is not an hsl triple) and is skipped under
+reduced motion; its `banner-shimmer` keyframes are in `app/scenes.css`. Scramble Text does not scramble under reduced
+motion, and screen readers get the plain text.
 
 Ruixen tools (https://ruixen.com/tools) were used for the form of the theme variables, shadows, glass and gradient
 values in `app/tokens.css`. New values written in the same form (the pill glass group, the card glow and the hero
@@ -93,12 +98,14 @@ The Gear and deck coverage cards use cropped, locally stored versions of these p
 
 ## Video clips
 
-- The two clips on Home (`public/clips/`) are authored in `video/` with Remotion (https://www.remotion.dev/). Remotion
+- The clips in `public/clips/` (two on Home, one on Community) are authored in `video/` with Remotion (https://www.remotion.dev/). Remotion
   is source-available under its own licence, not MIT: its free licence covers individuals, non-profit organisations and
   companies of up to three people. The club should confirm it fits at https://www.remotion.dev/license.
-- SnapCN (https://snapcn.dev/), MIT: Card Rail and Punch Lines, installed unmodified into `video/src/components/snap-cn/`
-  with their shared core in `video/src/lib/snap-cn-ui/`. Only free components are used.
-- The clips show renders of the club's Dran Sword model and redraw the site's own finish diagrams.
+- SnapCN (https://snapcn.dev/), MIT: Card Rail, Punch Lines and Text Highlight, installed into `video/src/components/snap-cn/`
+  with their shared core in `video/src/lib/snap-cn-ui/`. Only free components are used, unedited. The red shot of the
+  Community clip is the project's own (`video/src/Meet.tsx`): its labels cross-fade in place and nothing moves.
+- The Home clips show renders of the club's Dran Sword model and redraw the site's own finish diagrams. The Community
+  clip is text only.
 
 ## Other packages
 

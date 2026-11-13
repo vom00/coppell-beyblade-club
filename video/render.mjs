@@ -1,4 +1,4 @@
-// npm run render: both clips and both posters into ../public/clips/.
+// npm run render: the clips and their posters into ../public/clips/.
 // H.264, yuv420p, no audio, moov atom first (Remotion moves it with ffmpeg -movflags faststart).
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
@@ -11,8 +11,11 @@ const remotion = (...args) => run("node_modules/@remotion/cli/remotion-cli.js", 
 
 run("prepare.mjs");
 fs.mkdirSync(OUT, { recursive: true });
-for (const id of ["basics", "match"]) {
-  remotion("render", id, path.join(OUT, `${id}.mp4`), "--codec=h264", `--crf=${CRF}`, "--x264-preset=veryslow", "--pixel-format=yuv420p", "--color-space=bt709", "--muted");
+// npm run render -- meet renders one clip
+const only = process.argv.slice(2);
+// --concurrency=1: parallel browser tabs can lay text out differently, which shows as single frames that jump.
+for (const id of only.length ? only : ["basics", "match", "meet"]) {
+  remotion("render", id, path.join(OUT, `${id}.mp4`), "--codec=h264", `--crf=${CRF}`, "--x264-preset=veryslow", "--pixel-format=yuv420p", "--color-space=bt709", "--muted", "--concurrency=1");
   remotion("still", `${id}-poster`, path.join(OUT, `${id}-poster.webp`), "--jpeg-quality=80");
 }
 for (const f of fs.readdirSync(OUT)) console.log(`public/clips/${f}`, `${(fs.statSync(path.join(OUT, f)).size / 1024).toFixed(1)} KB`);

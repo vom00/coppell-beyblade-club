@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
@@ -93,6 +93,7 @@ const FolderComponent = ({
 }: FolderComponentProps) => {
   const theme = themes[color] ?? themes.black;
   const scale = sizeScales[size];
+  const filterId = useId();
   const [isHovered, setIsHovered] = useState(false);
   const [isOpenSelf, setIsOpen] = useState(false);
   const isOpen = open ?? isOpenSelf;
@@ -202,7 +203,7 @@ const FolderComponent = ({
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <g filter="url(#filter0_i_171_13)">
+              <g filter={`url(#${filterId})`}>
                 <path
                   d={FLAP_PATH}
                   fill={theme.flapFill}
@@ -215,7 +216,7 @@ const FolderComponent = ({
               </g>
               <defs>
                 <filter
-                  id="filter0_i_171_13"
+                  id={filterId}
                   x="-25.4"
                   y="-25.4"
                   width="371.8"

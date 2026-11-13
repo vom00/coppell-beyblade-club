@@ -14,6 +14,16 @@ export const site = {
   region: "Dallas-Fort Worth",
 } as const;
 
+/** When and where the club meets, as the club gave it. */
+export const meeting = {
+  cadence: "Every two weeks",
+  day: "Tuesday, on A weeks",
+  time: "4:20 to 5:20 pm",
+  room: "C112",
+  roomNote: "Mr. Pool's room",
+  line: "The club meets every two weeks, on the Tuesday of each A week, from 4:20 to 5:20 pm in room C112 (Mr. Pool's room).",
+} as const;
+
 export const routes: SiteRoute[] = [
   {
     id: "home",
@@ -379,7 +389,7 @@ export const faq: FaqItem[] = [
   },
   {
     q: "When and where does the club meet?",
-    a: "Meeting times, rooms and who is eligible are not posted on this site. Message the club account on Instagram.",
+    a: "Every two weeks, on the Tuesday of each A week, from 4:20 to 5:20 pm in room C112 (Mr. Pool's room). Who is eligible and the date of the next meeting are not posted on this site, so message the club account on Instagram.",
     href: "https://www.instagram.com/coppellbeybladeclub/",
     linkLabel: "Club Instagram",
     external: true,

@@ -41,7 +41,7 @@ npm run check:content -- --online  # also requests each external URL and reports
 - `app/tokens.css`, `app/fonts.ts` — colours, type and spacing, all drawn from the crest.
 - `components/scene/` — the top, the stadium, the Home rail sequence and the Learn exploded diagram.
 - `components/site/` — header, footer, video player and other shared pieces.
-- `video/`: the Remotion project for the two Home clips (its own `package.json`). `npm install` then `npm run render` inside it rewrites `public/clips/`; `npm run studio` opens the editor.
+- `video/`: the Remotion project for the two Home clips and the Community meeting clip (its own `package.json`). `npm install` then `npm run render` inside it rewrites `public/clips/`; `npm run studio` opens the editor.
 - `public/brand/` — the original club crest, unmodified, plus a 512px copy for the header.
 - `docs/DESIGN.md` — the visual direction the site was built to.
 - `docs/content-inventory.md` — every external destination and its last check result.

@@ -39,7 +39,7 @@ export default function Gear() {
 
       <section className="section section--flush" aria-labelledby="box-h">
         <div className="wrap">
-          <SectionHead id="box-h" count={productGroups.length}>
+          <SectionHead id="box-h">
             What is in the box?
           </SectionHead>
           <Chooser
@@ -60,7 +60,7 @@ export default function Gear() {
         return (
           <section key={g.id} id={g.id} className="section section--flush" aria-labelledby={`${g.id}-h`}>
             <div className="wrap">
-              <SectionHead id={`${g.id}-h`} count={items.length} lead={<p>{g.inTheBox}</p>}>
+              <SectionHead id={`${g.id}-h`} lead={<p>{g.inTheBox}</p>}>
                 {g.heading}
               </SectionHead>
               <ul className="bento bento--3 shelf">
