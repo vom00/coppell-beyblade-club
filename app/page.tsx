@@ -19,7 +19,8 @@ import { TopImage } from "@/components/site/TopImage";
 import type { TopId } from "@/lib/content-types";
 import { RisingGlow } from "@/components/ui/ruixen/rising-glow";
 import FaqSection from "@/components/site/FaqSection";
-import { bayTops, faq, links, site } from "@/lib/content";
+import { BannerAnnouncement } from "@/components/ui/ruixen/banner-announcement";
+import { bayTops, faq, links, meeting, site } from "@/lib/content";
 import { routeMeta } from "./meta";
 
 export const metadata = routeMeta("home");
@@ -83,7 +84,16 @@ export default function Home() {
 
       <section className="section" aria-labelledby="bay-h">
         <div className="wrap">
-          <SectionHead id="bay-h" count={bayTops.length}>
+          {/* Ruixen Banner Announcement, restyled as a card. It stays put: there is nothing to dismiss. */}
+          <aside className="meet-banner" aria-label="Club meetings">
+            <BannerAnnouncement badge="Meetings" dismissible={false} className="meet-banner__bar">
+              {meeting.line}{" "}
+              <Link href="/community#meet-h" className="textlink">
+                Meeting details
+              </Link>
+            </BannerAnnouncement>
+          </aside>
+          <SectionHead id="bay-h">
             In the display bay
           </SectionHead>
           <Reveal>
@@ -95,7 +105,7 @@ export default function Home() {
       <section className="section has-word" aria-labelledby="lanes-h">
         <SceneWord place="top-right">Xtreme Dash</SceneWord>
         <div className="wrap">
-          <SectionHead id="lanes-h" count="2">
+          <SectionHead id="lanes-h">
             Two ways in
           </SectionHead>
           <div className="bento bento--lanes">
@@ -144,7 +154,7 @@ export default function Home() {
 
       <section className="section section--flush" aria-labelledby="fin-h">
         <div className="wrap">
-          <SectionHead id="fin-h" count={finishes.length}>
+          <SectionHead id="fin-h">
             The four finishes
           </SectionHead>
           <ul className="bento bento--4">
@@ -179,7 +189,7 @@ export default function Home() {
 
       <section className="section section--flush" aria-labelledby="faq-h">
         <div className="wrap">
-          <SectionHead id="faq-h" count={faq.length}>
+          <SectionHead id="faq-h">
             Questions
           </SectionHead>
           <Reveal>

@@ -10,7 +10,9 @@ import CrestRing from "@/components/motion/CrestRing";
 import CopyLink from "@/components/site/CopyLink";
 import FluidOrb from "@/components/ui/fluid-orb";
 import { BadgeMorph } from "@/components/ui/ruixen/badge-morph";
-import { links } from "@/lib/content";
+import Clip from "@/components/site/Clip";
+import ScrambleText from "@/components/ui/ruixen/scramble-text";
+import { links, meeting } from "@/lib/content";
 import { routeMeta } from "../meta";
 
 export const metadata = routeMeta("community");
@@ -28,8 +30,8 @@ export default function Community() {
           </Reveal>
           <SplitTitle id="comm-h" className="h-hero" text="Where the players are" />
           <Reveal as="p" variant="deal" delay={400} className="lede">
-            Club updates go up on Instagram first. Questions about joining, the next meeting, meeting times, rooms or
-            who is eligible go to the same place: message the club account.
+            Club updates go up on Instagram first. Questions about joining, the date of the next meeting or who is
+            eligible go to the same place: message the club account.
           </Reveal>
           <div className="community-hero__crest" aria-hidden="true" style={{ marginTop: "var(--space-6)" }}>
             {/* RareUI Fluid Orb in the crest red, behind the crest. Decorative; pauses offscreen; one still frame under reduced motion. */}
@@ -38,6 +40,46 @@ export default function Community() {
             </div>
             <CrestRing variant="radar" />
           </div>
+        </div>
+      </section>
+
+      <section className="section section--flush" aria-labelledby="meet-h">
+        <div className="wrap">
+          <SectionHead
+            id="meet-h"
+            lead={<p>{meeting.line} The date of the next meeting is not posted here, so ask on Instagram before your first visit.</p>}
+          >
+            Meetings
+          </SectionHead>
+          <Reveal>
+            <Tile className="meet">
+              <div className="meet__grid">
+                <Clip name="meet" label="Video, no sound: the club meets every two weeks, on Tuesdays of A weeks, from 4:20 to 5:20, in room C112" />
+                <dl className="meet__facts">
+                  <div>
+                    <dt>How often</dt>
+                    <dd>{meeting.cadence}</dd>
+                  </div>
+                  <div>
+                    <dt>Day</dt>
+                    <dd>{meeting.day}</dd>
+                  </div>
+                  <div>
+                    <dt>Time</dt>
+                    <dd>{meeting.time}</dd>
+                  </div>
+                  <div>
+                    <dt>Room</dt>
+                    <dd>
+                      {/* Ruixen Scramble Text: the room number decodes on hover. */}
+                      <ScrambleText as="span">{meeting.room}</ScrambleText>
+                      <small>{meeting.roomNote}</small>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </Tile>
+          </Reveal>
         </div>
       </section>
 
@@ -64,7 +106,6 @@ export default function Community() {
         <div className="wrap">
           <SectionHead
             id="discord-h"
-            count={discords.length}
             lead={
               <p>These are external communities. The club does not run them, so their rules and moderators are their own.</p>
             }

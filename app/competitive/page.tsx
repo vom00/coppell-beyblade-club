@@ -89,7 +89,7 @@ export default function Compete() {
 
       <section className="section" aria-labelledby="score-h">
         <div className="wrap">
-          <SectionHead id="score-h" count={finishes.length}>
+          <SectionHead id="score-h">
             The scoresheet
           </SectionHead>
           <Reveal>
@@ -137,7 +137,6 @@ export default function Compete() {
         <div className="wrap">
           <SectionHead
             id="deck-h"
-            count="2"
             lead={
               <p>
                 A deck is the set of tops you can bring to a match. Coverage means that whatever the other player
@@ -207,7 +206,7 @@ export default function Compete() {
 
       <section className="section section--flush" aria-labelledby="cn-h">
         <div className="wrap">
-          <SectionHead id="cn-h" count="2" as="h2">
+          <SectionHead id="cn-h" as="h2">
             Next
           </SectionHead>
           <div className="bento bento--2">

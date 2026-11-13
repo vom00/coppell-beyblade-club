@@ -86,11 +86,10 @@ export default function Learn() {
         </div>
       </section>
 
-      <section className="section section--flush" aria-labelledby="parts-h">
+      <section className="section section--flush parts-head" aria-labelledby="parts-h">
         <div className="wrap">
           <SectionHead
             id="parts-h"
-            count={parts.length}
             lead={<p>Every top is built from parts you can swap. This is the classic layout, pulled apart.</p>}
           >
             One top, three parts
@@ -116,7 +115,7 @@ export default function Learn() {
 
       <section className="section section--flush" aria-labelledby="conv-h">
         <div className="wrap">
-          <SectionHead id="conv-h" count={parts.length}>
+          <SectionHead id="conv-h">
             Pick a part
           </SectionHead>
           <Reveal>
@@ -162,7 +161,7 @@ export default function Learn() {
       <section className="section section--flush has-word" aria-labelledby="types-h">
         <SceneWord place="top-right">Stamina</SceneWord>
         <div className="wrap">
-          <SectionHead id="types-h" count={types.length}>
+          <SectionHead id="types-h">
             Four types, four trade-offs
           </SectionHead>
           <div className="bento bento--4">
@@ -220,7 +219,7 @@ export default function Learn() {
 
       <section className="section section--flush" aria-labelledby="refs-h">
         <div className="wrap">
-          <SectionHead id="refs-h" count="2">
+          <SectionHead id="refs-h">
             Official references
           </SectionHead>
           <ul className="bento bento--2">
@@ -237,7 +236,7 @@ export default function Learn() {
 
       <section className="section section--flush" aria-labelledby="next-h">
         <div className="wrap">
-          <SectionHead id="next-h" count="2">
+          <SectionHead id="next-h">
             Next steps
           </SectionHead>
           <div className="bento bento--2">

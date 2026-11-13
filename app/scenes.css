@@ -41,6 +41,14 @@
   .only-motion { display: none; }
   .only-still { display: block; }
 }
+/* The pinned parts bench centres its diagram and keeps headroom for the parts to rise into, which left a tall
+   empty band under this heading. Where the bench is pinned, the heading gives up its bottom space and the bench
+   tucks up under it by the slack above the diagram, which grows with the window height; the heading stays on top. */
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .parts-head { position: relative; z-index: 1; padding-bottom: 0; }
+  .parts-head .sec-lead { margin-bottom: 0; }
+  .parts-head + section { margin-top: calc(-1 * clamp(0px, 50svh - 314px, 9rem)); }
+}
 .still { color: var(--fg); }
 .still .rcl, .still .only-still { width: 100%; height: auto; }
 .type .tile__panel--media { padding: var(--space-4); }
@@ -162,7 +170,7 @@
 
 /* ---------- Labels ---------- */
 /* Small labels follow ruixen.com: Geist, uppercase, tracked, neutral grey. No mono type, no brackets, no red outline pills. */
-.badge, .chip, .wordmark, .sec-head__count, .tile__index, .logos__label, .site-footer__label, .hint, .product__spec, .drill-steps b, .practice thead th {
+.badge, .chip, .wordmark, .tile__index, .logos__label, .site-footer__label, .hint, .product__spec, .drill-steps b, .practice thead th {
   font-size: 0.6875rem;
   font-weight: 500;
   letter-spacing: var(--tracking-label);
@@ -170,5 +178,20 @@
 }
 .badge, .chip, .wordmark { border-radius: var(--radius-tag); }
 .chip--brand { background: var(--foreground); border-color: transparent; color: #111; font-weight: 600; }
-.sec-head__count, .tile__index, .product__spec, .drill-steps b { color: var(--muted-foreground); }
-.sec-head__count { font-size: 0.875rem; }
+.tile__index, .product__spec, .drill-steps b { color: var(--muted-foreground); }
+
+/* ---------- Meetings ---------- */
+@keyframes banner-shimmer { from { background-position: 200% 0; } to { background-position: -100% 0; } }
+.meet-banner { margin-bottom: var(--space-7); }
+.meet-banner__bar { flex-wrap: wrap; padding: var(--space-3) var(--space-5); background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-panel); overflow: hidden; }
+.meet-banner__bar > span { border-radius: var(--radius-tag); background: var(--foreground); color: #111; font-family: var(--font-label-stack); font-size: 0.6875rem; font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.meet-banner__bar > p { color: var(--foreground); font-weight: 400; }
+.meet__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); align-items: center; }
+.meet__grid > * { margin-top: 0; }
+@media (min-width: 56rem) { .meet__grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--space-6); } }
+.meet__facts { display: grid; margin: 0; }
+.meet__facts > div { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4); padding: var(--space-3) 0; border-top: 1px solid var(--border); }
+.meet__facts > div:first-child { border-top: 0; }
+.meet__facts dt { font-family: var(--font-label-stack); font-size: 0.6875rem; font-weight: 500; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--muted-foreground); }
+.meet__facts dd { margin: 0; text-align: right; font-family: var(--font-display-stack); font-size: var(--step-2); font-weight: 600; letter-spacing: var(--tracking-display); line-height: 1.15; color: var(--foreground); }
+.meet__facts small { display: block; margin-top: var(--space-1); font-family: var(--font-body-stack); font-size: 0.9375rem; font-weight: 400; letter-spacing: 0; color: var(--muted-foreground); }

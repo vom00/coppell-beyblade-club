@@ -227,8 +227,8 @@ const STREAKS = 7;
 // ground-plane axes of the rest camera: toward it, and screen-right
 const VIEW_F = [Math.sin(HOME_CAM.az), Math.cos(HOME_CAM.az)] as const;
 const VIEW_R = [Math.cos(HOME_CAM.az), -Math.sin(HOME_CAM.az)] as const;
-// Each scene shows a different top: Dran Sword stays on the Learn conveyor only.
-export const HERO_TOP: TopId = "sol-eclipse";
+// The hero is Dran Sword, the club's pick; the rival is a different top so the two read apart.
+export const HERO_TOP: TopId = "dran-sword";
 export const RIVAL_TOP: TopId = "hells-scythe";
 
 export async function createRailScene(canvas: HTMLCanvasElement, o: Options): Promise<SceneHandle> {
@@ -251,15 +251,15 @@ export async function createRailScene(canvas: HTMLCanvasElement, o: Options): Pr
   dressStadium(stadium, pal, rail.texture);
   scene.add(stadium.root);
 
-  // Hero top, and a plainer rival circling the bowl for life.
+  // Hero top, and a rival of the same size circling the bowl for life.
   hero.root.scale.setScalar(HOME_TOP_SCALE);
   const heroLean = new THREE.Group();
   heroLean.add(hero.root);
   const heroShadow = contactShadow(0.62);
-  rival.root.scale.setScalar(0.92);
+  rival.root.scale.setScalar(HOME_TOP_SCALE);
   const rivalLean = new THREE.Group();
   rivalLean.add(rival.root);
-  const rivalShadow = contactShadow(0.46);
+  const rivalShadow = contactShadow(0.62);
   scene.add(heroLean, heroShadow, rivalLean, rivalShadow);
 
   const sparks = new Sparks(80, new THREE.Color("#fff3c4"), pal.xtreme, glowMap, 0.085);
@@ -320,7 +320,7 @@ export async function createRailScene(canvas: HTMLCanvasElement, o: Options): Pr
     // sideways, away from the hero. Eased out while crossing, where depth keeps them apart.
     const hLat = ps.x * VIEW_R[0] + ps.z * VIEW_R[1];
     const hNear = ps.x * VIEW_F[0] + ps.z * VIEW_F[1];
-    const minS = 0.46;
+    const minS = 0.52; // two blade radii at HOME_TOP_SCALE, plus a little
     const need = minS * minS - ((near - hNear) * 0.5) ** 2;
     if (need > 0 && Math.abs(lat - hLat) < Math.sqrt(need)) {
       const pushed = hLat + Math.sign(lat - hLat || -1) * Math.sqrt(need);
@@ -329,9 +329,10 @@ export async function createRailScene(canvas: HTMLCanvasElement, o: Options): Pr
     let rx = lat * VIEW_R[0] + near * VIEW_F[0];
     let rz = lat * VIEW_R[1] + near * VIEW_F[1];
     const rR = Math.hypot(rx, rz);
-    if (rR > 0.7) {
-      rx *= 0.7 / rR;
-      rz *= 0.7 / rR;
+    const rMax = 0.6; // keeps the rival's blade inside the rail teeth
+    if (rR > rMax) {
+      rx *= rMax / rR;
+      rz *= rMax / rR;
     }
     const ry = floorY(Math.hypot(rx, rz));
     rivalLean.position.set(rx, ry, rz);

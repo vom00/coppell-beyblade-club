@@ -18,7 +18,8 @@ export default function Clip({ name, label }: { name: string; label: string }) {
     v.muted = true; // React does not reliably set the muted attribute, and autoplay needs it
     const io = new IntersectionObserver(
       ([e]) => {
-        if (e.isIntersecting) v.play().catch(() => {}); // a blocked autoplay leaves the poster up
+        // A blocked autoplay (an iPhone in Low Power Mode) leaves the poster up, so give it the controls.
+        if (e.isIntersecting) v.play().catch((err) => { if (err?.name === "NotAllowedError") v.controls = true; });
         else v.pause();
       },
       { threshold: 0.25 },

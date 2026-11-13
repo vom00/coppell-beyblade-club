@@ -42,13 +42,13 @@ export default function VideoPlayer({
 
   return (
     <div className="video">
-      <div className="video__stage">
+      <div className="video__stage" data-playing={Boolean(current)}>
         {current ? (
           <iframe
             key={current.key}
             ref={frameRef}
             title={label}
-            src={`https://www.youtube-nocookie.com/embed/${video.id}?start=${current.seconds}&autoplay=1`}
+            src={`https://www.youtube-nocookie.com/embed/${video.id}?start=${current.seconds}&autoplay=1&playsinline=1`}
             allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
             allowFullScreen
             referrerPolicy="strict-origin-when-cross-origin"
