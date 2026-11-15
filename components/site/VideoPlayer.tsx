@@ -13,7 +13,8 @@ const actionLabel: Record<StartKey, (stamp: string) => string> = {
 };
 
 /**
- * Click-to-load player. Nothing from YouTube loads until a play button is pressed.
+ * Click-to-load player. Before play it shows the video's thumbnail (an image from i.ytimg.com, sent without
+ * a referrer); the YouTube player itself loads only when a play button is pressed.
  * A plain timestamped watch link is always visible underneath.
  */
 export default function VideoPlayer({
@@ -55,6 +56,16 @@ export default function VideoPlayer({
           />
         ) : (
           <div className="video__facade">
+            <img
+              className="video__thumb"
+              src={`https://i.ytimg.com/vi_webp/${video.id}/maxresdefault.webp`}
+              srcSet={`https://i.ytimg.com/vi_webp/${video.id}/mqdefault.webp 320w, https://i.ytimg.com/vi_webp/${video.id}/maxresdefault.webp 1280w`}
+              sizes="(max-width: 40rem) 100vw, 60rem"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              referrerPolicy="no-referrer"
+            />
             <p className="chip"><BrandMark brand="youtube" /> {video.channel}</p>
             <p className="video__title">{video.title}</p>
             <p className="video__stamp">Starts at {main.stamp}</p>

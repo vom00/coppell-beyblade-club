@@ -54,6 +54,8 @@
   --glass-border: 1px solid rgb(255 255 255 / 0.08);
   /* Ruixen Gradient Generator: radial glow behind heroes and calls to action */
   --glow-brand: radial-gradient(60% 60% at 50% 100%, rgb(232 18 26 / 0.28) 0%, rgb(232 18 26 / 0) 70%);
+  /* over a video thumbnail: dark at the top and bottom, where the title and the play button sit */
+  --video-wash: linear-gradient(180deg, rgb(0 0 0 / 0.85) 0%, rgb(0 0 0 / 0.6) 50%, rgb(0 0 0 / 0.85) 100%);
 
   /* Type */
   --font-display-stack: var(--font-display), "Open Runde", "Inter", system-ui, sans-serif;
